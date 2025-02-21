@@ -15,5 +15,7 @@ namespace FTMS.models
         public int ReceiverId { get; set; }
         [ForeignKey("ReceiverId")]
         public User Receiver { get; set; }
+
+        public Status RequestStatus { get; set; }
     }
 }

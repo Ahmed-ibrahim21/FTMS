@@ -6,9 +6,10 @@ namespace FTMS.models
 {
     public class User : IdentityUser
     {
-        [Required,MaxLength(50)]
-        public string UserName { get; set; }
-       
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
         [MaxLength(1048576)]
         public byte[] ProfilePic { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿namespace FTMS.models
 {
-    public class Trainer : Person
+    public class Trainer : User
     {
         public string Speciality { get; set; }
 

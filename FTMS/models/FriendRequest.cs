@@ -8,11 +8,11 @@ namespace FTMS.models
         [Key]
         public int Id { get; set; }
 
-        public Guid SenderId { get; set; }
+        public string SenderId { get; set; }
         [ForeignKey("SenderId")]
         public User sender { get; set; }
 
-        public Guid ReceiverId { get; set; }
+        public string ReceiverId { get; set; }
         [ForeignKey("ReceiverId")]
         public User Receiver { get; set; }
 

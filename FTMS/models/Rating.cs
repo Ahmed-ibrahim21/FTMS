@@ -12,11 +12,11 @@ namespace FTMS.models
         [Range(0, 5)]
         public int RatingValue { get; set; }
 
-        public Guid TrainerId { get; set; }
+        public string TrainerId { get; set; }
         [ForeignKey("TrainerId")]
         public Trainer Trainer { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
         [ForeignKey("UserId")]
         public User User { get; set; }
 

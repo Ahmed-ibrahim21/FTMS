@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FTMS.RepositoriesContracts;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace FTMS.Repositories

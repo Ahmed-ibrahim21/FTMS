@@ -1,6 +1,6 @@
 ﻿using FTMS.models;
 
-namespace FTMS.Repositories
+namespace FTMS.RepositoriesContracts
 {
     public interface IUserRepository
     {

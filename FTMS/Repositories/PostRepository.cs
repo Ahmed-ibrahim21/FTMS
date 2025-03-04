@@ -1,4 +1,5 @@
 ﻿using FTMS.models;
+using FTMS.RepositoriesContracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace FTMS.Repositories
@@ -20,6 +21,7 @@ namespace FTMS.Repositories
         public async Task<Post> GetPost(int postId, string userId, bool trackChanges) => await FindByCondition(post => post.PostId.Equals(postId) && post.UserId.Equals(userId), trackChanges).SingleOrDefaultAsync();
 
         public async Task<IEnumerable<Post>> GetPosts(string userId, bool trackChanges) => await FindByCondition(post => post.UserId.Equals(userId), trackChanges).ToListAsync();
+
 
         public void UpdatePost(Post post) => Update(post);
     }

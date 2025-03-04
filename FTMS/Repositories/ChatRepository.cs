@@ -1,4 +1,5 @@
 ﻿using FTMS.models;
+using FTMS.RepositoriesContracts;
 
 namespace FTMS.Repositories
 {

@@ -1,4 +1,5 @@
 using FTMS;
+using FTMS.Extensions;
 using FTMS.models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.ConfigureCors();
+
+builder.Services.ConfigureRepositoryManager();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,6 +28,7 @@ builder.Services.AddIdentity<User, IdentityRole>()
 
 var app = builder.Build();
 
+app.UseCors("CorsPolicy");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

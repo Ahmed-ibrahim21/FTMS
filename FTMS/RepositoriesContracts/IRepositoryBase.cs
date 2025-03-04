@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace FTMS.Repositories
+namespace FTMS.RepositoriesContracts
 {
     public interface IRepositoryBase<T>
     {

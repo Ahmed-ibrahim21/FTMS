@@ -4,6 +4,7 @@ using FTMS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    partial class FTMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250304163138_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Chats", (string)null);
+                    b.ToTable("Chats");
                 });
 
             modelBuilder.Entity("FTMS.models.Comment", b =>
@@ -64,7 +67,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments", (string)null);
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("FTMS.models.DietPlan", b =>
@@ -86,7 +89,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("DietPlans", (string)null);
+                    b.ToTable("DietPlans");
                 });
 
             modelBuilder.Entity("FTMS.models.FriendRequest", b =>
@@ -112,7 +115,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("FriendRequests", (string)null);
+                    b.ToTable("FriendRequests");
                 });
 
             modelBuilder.Entity("FTMS.models.Group", b =>
@@ -130,7 +133,7 @@ namespace FTMS.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups", (string)null);
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("FTMS.models.Message", b =>
@@ -162,7 +165,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("SenderId");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("FTMS.models.Post", b =>
@@ -202,7 +205,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("posts", (string)null);
+                    b.ToTable("posts");
                 });
 
             modelBuilder.Entity("FTMS.models.Rating", b =>
@@ -230,7 +233,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Rating", (string)null);
+                    b.ToTable("Rating");
                 });
 
             modelBuilder.Entity("FTMS.models.Reaction", b =>
@@ -262,7 +265,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reactions", (string)null);
+                    b.ToTable("Reactions");
                 });
 
             modelBuilder.Entity("FTMS.models.User", b =>
@@ -356,7 +359,7 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0c5d3a4a-b1ac-4528-97f6-4af4ab0b8d06",
+                            ConcurrencyStamp = "23ed600a-4b73-4f81-a048-40fc99c4f6aa",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -364,10 +367,10 @@ namespace FTMS.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELN60nYF5DBmmw/AE8caucwmUPUAnF+A00/iIxjDKHbc2WsTgQ6JWCDbgmyXJYl/NA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMK0Nci/a66ru5GH/KLHf+DdC+Kxbeeu71AGPvwJFfs1A62aE83BalZMUhE5gj1qyw==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "f7109fe9-e6ab-425f-81a7-369d631126bb",
+                            SecurityStamp = "674b42e3-d9b0-470a-b326-b46f8efced60",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -385,7 +388,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("ChatId");
 
-                    b.ToTable("UserChats", (string)null);
+                    b.ToTable("UserChats");
                 });
 
             modelBuilder.Entity("FTMS.models.models_for_M_M.UserDiets", b =>
@@ -403,7 +406,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("DietPlanPlanId");
 
-                    b.ToTable("UserDiets", (string)null);
+                    b.ToTable("UserDiets");
                 });
 
             modelBuilder.Entity("FTMS.models.models_for_M_M.UserGroup", b =>
@@ -418,7 +421,7 @@ namespace FTMS.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("UserGroups", (string)null);
+                    b.ToTable("UserGroups");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

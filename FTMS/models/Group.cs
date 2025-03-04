@@ -10,11 +10,11 @@ namespace FTMS.models
 
         [Required]
         [MaxLength(100)]
-        public string GroupName { get; set; }
+        public string GroupName { get; set; }=string.Empty;
 
-        List<Post> Posts { get; set; }
+        List<Post>? Posts { get; set; }
 
-        public List<UserGroup> UserGroups { get; set; }
+        public List<UserGroup>? UserGroups { get; set; }
 
     }
 }

@@ -8,8 +8,8 @@ namespace FTMS.models
         [Key]
        public int PlanId { get; set; }
 
-        public string DietName { get; set; }
+        public string DietName { get; set; }=string.Empty;
 
-        public List<UserDiets> UserDiets { get; set; }
+        public List<UserDiets>? UserDiets { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FTMS;
 using FTMS.Configuration;
 using FTMS.Extensions;
+using FTMS.Hubs;
 using FTMS.models;
 using FTMS.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.ConfigureCors();
+
+builder.Services.AddSignalR();
 
 builder.Services.ConfigureRepositoryManager();
 
@@ -106,6 +109,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();  
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapHub<ChatHub>("/chatHub");
 
 app.MapControllers();
 

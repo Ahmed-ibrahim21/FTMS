@@ -4,6 +4,7 @@ using FTMS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    partial class FTMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250308143920_updatedSchemasAgain")]
+    partial class updatedSchemasAgain
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -362,7 +365,7 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7bf9722b-0692-402b-9dee-64481978bbc5",
+                            ConcurrencyStamp = "c77f0c4b-be38-4552-916a-860aa3dfa383",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -370,10 +373,10 @@ namespace FTMS.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOmIe0Eym03Ss/N1iHjQCNk5Vmoo1r0JD4eY8LyZAW29KHEPy65ZgyPy4y0ozXgjLg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEK8l5tOfuVUchVIh8XfZJF0xD/xp9dCjLiM7b8SbEwdwmmeLGbqs1ymYsmPy3l/2Fg==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "a5d8fbd9-15f7-4e8f-94c7-cdcadb7bfb35",
+                            SecurityStamp = "5ce04449-e6ea-4ba7-a180-c04d838f88e1",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });

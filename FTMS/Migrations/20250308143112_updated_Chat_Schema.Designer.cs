@@ -4,6 +4,7 @@ using FTMS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    partial class FTMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250308143112_updated_Chat_Schema")]
+    partial class updated_Chat_Schema
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +32,10 @@ namespace FTMS.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("ChatId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -149,10 +156,6 @@ namespace FTMS.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("RecieverId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("SenderId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -163,8 +166,6 @@ namespace FTMS.Migrations
                     b.HasKey("MessageId");
 
                     b.HasIndex("ChatId");
-
-                    b.HasIndex("RecieverId");
 
                     b.HasIndex("SenderId");
 
@@ -362,7 +363,7 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7bf9722b-0692-402b-9dee-64481978bbc5",
+                            ConcurrencyStamp = "76a193ba-fe36-4812-bef4-b4b293990b80",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -370,10 +371,10 @@ namespace FTMS.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOmIe0Eym03Ss/N1iHjQCNk5Vmoo1r0JD4eY8LyZAW29KHEPy65ZgyPy4y0ozXgjLg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEI65dEe4bcR7gxFwf9EQGJhgIknCgKrY7r737d9O6ppXyfY7Ov2OpnmPuzx/245Y7w==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "a5d8fbd9-15f7-4e8f-94c7-cdcadb7bfb35",
+                            SecurityStamp = "0180b0f6-f365-42bf-83f3-5e500dc48695",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -646,12 +647,6 @@ namespace FTMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FTMS.models.User", "Reciever")
-                        .WithMany()
-                        .HasForeignKey("RecieverId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FTMS.models.User", "Sender")
                         .WithMany()
                         .HasForeignKey("SenderId")
@@ -659,8 +654,6 @@ namespace FTMS.Migrations
                         .IsRequired();
 
                     b.Navigation("Chat");
-
-                    b.Navigation("Reciever");
 
                     b.Navigation("Sender");
                 });

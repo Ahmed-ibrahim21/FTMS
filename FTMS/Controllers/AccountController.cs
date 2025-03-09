@@ -1,6 +1,7 @@
 ﻿using FTMS.DTOs;
 using FTMS.models;
 using FTMS.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,9 +32,60 @@ public class AccountController : ControllerBase
             return Unauthorized("Invalid credentials");
 
         var roles = await _userManager.GetRolesAsync(user);
+
+        if (roles.Contains("Trainer") && !user.IsApproved)
+            return Unauthorized("Trainer account is pending approval by an admin.");
+
         var token = _jwtService.GenerateToken(user.Id, user.Email!, roles);
 
         return Ok(new { Token = token });
+    }
+
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterDto model)
+    {
+        if (model.Role != "User" && model.Role != "Trainer")
+            return BadRequest("Invalid role. You can only register as 'User' or 'Trainer'.");
+
+        var existingUser = await _userManager.FindByEmailAsync(model.Email);
+        if (existingUser != null)
+            return BadRequest("Email is already in use.");
+
+        var user = new User
+        {
+            FirstName = model.FirstName,
+            LastName = model.LastName,
+            Email = model.Email,
+            UserName = model.Email,
+            IsApproved = model.Role == "Trainer" ? false : true 
+        };
+
+        var result = await _userManager.CreateAsync(user, model.Password);
+        if (!result.Succeeded)
+            return BadRequest(result.Errors);
+
+        await _userManager.AddToRoleAsync(user, model.Role);
+
+        return Ok(new { Message = "Registration successful. Trainers require admin approval." });
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost("approve-trainer/{userId}")]
+    public async Task<IActionResult> ApproveTrainer(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            return NotFound("User not found.");
+
+        var roles = await _userManager.GetRolesAsync(user);
+        if (!roles.Contains("Trainer"))
+            return BadRequest("User is not a trainer.");
+
+        user.IsApproved = true;
+        await _userManager.UpdateAsync(user);
+
+        return Ok(new { Message = "Trainer approved successfully." });
     }
 }
 

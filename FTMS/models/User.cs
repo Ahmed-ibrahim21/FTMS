@@ -6,12 +6,12 @@ namespace FTMS.models
 {
     public class User : IdentityUser
     {
-
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public bool IsApproved { get; set; } = true;
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
 
         [MaxLength(1048576)]
-        public byte[] ProfilePic { get; set; }
+        public byte[]? ProfilePic { get; set; }
 
 
         public List<Chat> chats { get; set; }

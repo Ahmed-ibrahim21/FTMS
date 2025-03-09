@@ -4,6 +4,7 @@ using FTMS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    partial class FTMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250309151843_addUserGroup")]
+    partial class addUserGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,12 +313,11 @@ namespace FTMS.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -342,6 +344,7 @@ namespace FTMS.Migrations
                         .HasColumnType("bit");
 
                     b.Property<byte[]>("ProfilePic")
+                        .IsRequired()
                         .HasMaxLength(1048576)
                         .HasColumnType("varbinary(max)");
 
@@ -376,19 +379,18 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "80326001-10c2-496b-8dae-ad895824b3eb",
+                            ConcurrencyStamp = "25760112-a435-4ef5-b77c-d9f60ded058e",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
-                            IsApproved = true,
                             LastName = "Admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDuwlXbUQwNR9sI63NnLo42MjhAauzWenzrPOLrGbhrnslWPLm3s97I93uXMfPmc4g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEH2n9E0UPjRuJJtwcEVvryUI9ih8n3aIMQIJ1xN7WP7zqCYeb1jWYd+uER0z05lGg==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "14bddbae-0581-4787-918f-9a294a55a001",
+                            SecurityStamp = "0ade6ec4-ad07-4d49-a1d9-4011a7292567",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });

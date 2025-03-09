@@ -4,6 +4,7 @@ using FTMS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    partial class FTMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250309145459_addFieldsInGroup")]
+    partial class addFieldsInGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,10 +128,6 @@ namespace FTMS.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedByUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -310,12 +309,11 @@ namespace FTMS.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -342,6 +340,7 @@ namespace FTMS.Migrations
                         .HasColumnType("bit");
 
                     b.Property<byte[]>("ProfilePic")
+                        .IsRequired()
                         .HasMaxLength(1048576)
                         .HasColumnType("varbinary(max)");
 
@@ -376,19 +375,18 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "80326001-10c2-496b-8dae-ad895824b3eb",
+                            ConcurrencyStamp = "3f524328-0295-43ed-b91e-8ab0d15cd92f",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
-                            IsApproved = true,
                             LastName = "Admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDuwlXbUQwNR9sI63NnLo42MjhAauzWenzrPOLrGbhrnslWPLm3s97I93uXMfPmc4g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELdKsIfpDRP/nsl7YAf6Fn3xmIZsO2fGwge198gINffQ2w2StKHzeFjOlJLFAh+C1A==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "14bddbae-0581-4787-918f-9a294a55a001",
+                            SecurityStamp = "e4e68939-f835-4844-8b6d-0eefafd63e5b",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -433,12 +431,6 @@ namespace FTMS.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.HasKey("UserId", "GroupId");

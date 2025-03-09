@@ -4,6 +4,7 @@ using FTMS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    partial class FTMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250309153743_AddIsApproved")]
+    partial class AddIsApproved
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,12 +313,14 @@ namespace FTMS.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -342,6 +347,7 @@ namespace FTMS.Migrations
                         .HasColumnType("bit");
 
                     b.Property<byte[]>("ProfilePic")
+                        .IsRequired()
                         .HasMaxLength(1048576)
                         .HasColumnType("varbinary(max)");
 
@@ -376,7 +382,7 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "80326001-10c2-496b-8dae-ad895824b3eb",
+                            ConcurrencyStamp = "3cdc9377-3d54-4822-b6d5-12ff84a75959",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -385,10 +391,10 @@ namespace FTMS.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDuwlXbUQwNR9sI63NnLo42MjhAauzWenzrPOLrGbhrnslWPLm3s97I93uXMfPmc4g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDpe7gw1BdajofYzrnENi0k24KKvURscnPDdxcP2C+C+/DucaBB0/QT4up1FxJ7SSg==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "14bddbae-0581-4787-918f-9a294a55a001",
+                            SecurityStamp = "c665ec0d-3052-4a34-baeb-28e0c25b09a8",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });

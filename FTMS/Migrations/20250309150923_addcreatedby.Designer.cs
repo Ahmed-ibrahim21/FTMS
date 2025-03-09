@@ -4,6 +4,7 @@ using FTMS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    partial class FTMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250309150923_addcreatedby")]
+    partial class addcreatedby
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,6 +200,7 @@ namespace FTMS.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Image")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Text")
@@ -211,8 +215,9 @@ namespace FTMS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<byte[]>("Video")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("VideoUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PostId");
 
@@ -308,12 +313,11 @@ namespace FTMS.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("bit");
-
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -340,6 +344,7 @@ namespace FTMS.Migrations
                         .HasColumnType("bit");
 
                     b.Property<byte[]>("ProfilePic")
+                        .IsRequired()
                         .HasMaxLength(1048576)
                         .HasColumnType("varbinary(max)");
 
@@ -374,19 +379,18 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "80326001-10c2-496b-8dae-ad895824b3eb",
+                            ConcurrencyStamp = "ceaf80a9-c704-479a-928b-3cb7bef99ab4",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
-                            IsApproved = true,
                             LastName = "Admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDuwlXbUQwNR9sI63NnLo42MjhAauzWenzrPOLrGbhrnslWPLm3s97I93uXMfPmc4g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENH5acA5fbtXESDl72ASEhzR5AH9Al//LLAFvF1I1oiCVvz7dvN7GIuov9M/nXBauw==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "14bddbae-0581-4787-918f-9a294a55a001",
+                            SecurityStamp = "162d4318-8136-48c4-acfc-7f4702c77f25",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -431,12 +435,6 @@ namespace FTMS.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("GroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.HasKey("UserId", "GroupId");

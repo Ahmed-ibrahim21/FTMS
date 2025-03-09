@@ -1,11 +1,15 @@
 ﻿using FTMS;
 using FTMS.Configuration;
 using FTMS.Extensions;
+using FTMS.Helper;
 using FTMS.Hubs;
 using FTMS.Mapping;
 using FTMS.models;
 using FTMS.Repositories;
 using FTMS.RepositoriesContracts;
+using FTMS.Repositories;
+using FTMS.RepositoriesContracts;
+using FTMS.ServiceContracts;
 using FTMS.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -36,6 +40,13 @@ builder.Services.AddDbContext<FTMSContext>(options =>
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<FTMSContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<IGroupRepository, GroupRepository>();
+builder.Services.AddScoped<IGroupService, GroupService>();
+
 
 
 builder.Services.AddEndpointsApiExplorer();
@@ -97,6 +108,9 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddAuthorization();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
+
 
 var app = builder.Build();
 

@@ -2,7 +2,10 @@
 using FTMS.Configuration;
 using FTMS.Extensions;
 using FTMS.Hubs;
+using FTMS.Mapping;
 using FTMS.models;
+using FTMS.Repositories;
+using FTMS.RepositoriesContracts;
 using FTMS.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -71,6 +74,8 @@ var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
 
 builder.Services.AddScoped<JwtService>();
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

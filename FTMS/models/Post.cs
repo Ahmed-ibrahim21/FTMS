@@ -10,13 +10,12 @@ namespace FTMS.models
         [MaxLength(1000)]
         public string Text { get; set; }
 
-        public byte[] Image { get; set; }
+        public byte[]? Image { get; set; }
 
-        public string VideoUrl { get; set; }
-
+        public byte[]? Video { get; set; }
         public DateTime TimeStamp { get; set; }
 
-        List<Reaction> Reactions { get; set; }
+        List<Reaction> Reactions { get; set; } = new();
 
         public string UserId { get; set; }
 

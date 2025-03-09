@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    [Migration("20250304163214_test2")]
-    partial class test2
+    [Migration("20250309131058_create-models")]
+    partial class createmodels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -152,6 +152,10 @@ namespace FTMS.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("RecieverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SenderId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -162,6 +166,8 @@ namespace FTMS.Migrations
                     b.HasKey("MessageId");
 
                     b.HasIndex("ChatId");
+
+                    b.HasIndex("RecieverId");
 
                     b.HasIndex("SenderId");
 
@@ -359,7 +365,7 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0c5d3a4a-b1ac-4528-97f6-4af4ab0b8d06",
+                            ConcurrencyStamp = "84e46992-a39f-4cc3-9137-4e6ca760d814",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -367,10 +373,10 @@ namespace FTMS.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELN60nYF5DBmmw/AE8caucwmUPUAnF+A00/iIxjDKHbc2WsTgQ6JWCDbgmyXJYl/NA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEu29yrfm+NUlJQskSwZn1AiiVGjcQ6sCmRjghH5raYYaVID5nvUhn4FtsCpVz0XVQ==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "f7109fe9-e6ab-425f-81a7-369d631126bb",
+                            SecurityStamp = "4f016874-a117-491c-951f-7e15d0841af2",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -643,6 +649,12 @@ namespace FTMS.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FTMS.models.User", "Reciever")
+                        .WithMany()
+                        .HasForeignKey("RecieverId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("FTMS.models.User", "Sender")
                         .WithMany()
                         .HasForeignKey("SenderId")
@@ -650,6 +662,8 @@ namespace FTMS.Migrations
                         .IsRequired();
 
                     b.Navigation("Chat");
+
+                    b.Navigation("Reciever");
 
                     b.Navigation("Sender");
                 });

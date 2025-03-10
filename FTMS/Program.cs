@@ -43,6 +43,8 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupService, GroupService>();
+builder.Services.AddScoped<IUserGroupRepository, UserGroupRepository>();
+
 
 
 

@@ -1,13 +1,12 @@
 ﻿using FTMS.models;
-using System.ComponentModel.DataAnnotations;
 
 namespace FTMS.DTOs
 {
-    public class ReactionDto
+    public class GetReactionDto
     {
-        [Required]
+        public int ReactionId { get; set; }
         public ReactionType Type { get; set; }
-
+        public string UserId { get; set; }
         public int? CommentId { get; set; }
         public int? PostId { get; set; }
     }

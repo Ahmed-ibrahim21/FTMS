@@ -14,8 +14,8 @@ namespace FTMS.Repositories
     public class PostRepository : IPostRepository
     {
         private readonly FTMSContext _context;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public PostRepository(FTMSContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
@@ -52,31 +52,12 @@ namespace FTMS.Repositories
 
             return _mapper.Map<GetPostDto>(post);
         }
-        private async Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
+
+        public async Task<GetPostDto> UpdatePostAsync(int postId, PostDto postDto)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
-                return memoryStream.ToArray();
-            }
-        }
-        //CreateMap<PostDto, Post>()
-        //        .ForMember(dest => dest.Image, opt => opt.Ignore())
-        //        .ForMember(dest => dest.Video, opt => opt.Ignore())
-        //        .ReverseMap();
-
-
-        //CreateMap<Post, GetPostDto>().ReverseMap();
-        //CreateMap<CreateReactionDto, Reaction>();
-        //    CreateMap<Reaction, ReactionDto>();
-        public async Task<GetPostDto> UpdatePostAsync(int PostId,PostDto postDto)
-        {
-            if (postDto == null)
-                throw new ArgumentNullException(nameof(postDto), "Post update data cannot be null.");
-
-            var post = await _context.posts.FindAsync(PostId);
+            var post = await _context.posts.FindAsync(postId);
             if (post == null)
-                throw new KeyNotFoundException($"Post with ID {PostId} not found.");
+                throw new KeyNotFoundException($"Post with ID {postId} not found.");
 
             post.Text = postDto.Text ?? post.Text;
 
@@ -118,7 +99,15 @@ namespace FTMS.Repositories
             var posts = await _context.posts.ToListAsync();
             return _mapper.Map<List<GetPostDto>>(posts);
         }
+
+        private async Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
+        {
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            return memoryStream.ToArray();
+        }
     }
+
 
 
 }

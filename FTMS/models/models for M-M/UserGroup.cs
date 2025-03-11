@@ -5,8 +5,8 @@
         public int Id { get; set; }
         public string UserId { get; set; }
         public int GroupId { get; set; }
-        public GroupRole Role { get; set; } = GroupRole.Member; 
-
+        public GroupRole Role { get; set; } = GroupRole.Member;
+        public RequestStatus Status { get; set; } = RequestStatus.Pending;
         public User? User { get; set; }
         public Group? Group { get; set; }
     }
@@ -16,5 +16,11 @@
         Owner,
         Admin,
         Member
+    }
+    public enum RequestStatus
+    {
+        Pending, 
+        Approved,  
+        Denied     
     }
 }

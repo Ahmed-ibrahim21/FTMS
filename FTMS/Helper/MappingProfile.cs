@@ -16,10 +16,10 @@ public class MappingProfile:Profile
                 .ReverseMap();
 
         CreateMap<Post, GetPostDto>().ReverseMap();
-        CreateMap<CreateReactionDto, Reaction>();
-        CreateMap<Reaction, ReactionDto>();
 
         CreateMap<CommentDto, Comment>().ReverseMap();
         CreateMap<GetCommentDto, Comment>().ReverseMap();
+        CreateMap<GetReactionDto, Reaction>().ReverseMap();
+        CreateMap<ReactionDto, Reaction>().ReverseMap();
     }
 }

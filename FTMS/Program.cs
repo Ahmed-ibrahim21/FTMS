@@ -6,6 +6,7 @@ using FTMS.Hubs;
 using FTMS.models;
 using FTMS.Repositories;
 using FTMS.RepositoriesContracts;
+
 using FTMS.ServiceContracts;
 using FTMS.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -86,6 +87,15 @@ var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
 
 builder.Services.AddScoped<JwtService>();
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
+builder.Services.AddScoped<IPostService, PostService>();
+
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
+builder.Services.AddScoped<IReactionService, ReactionService>();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -129,6 +139,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapHub<ChatHub>("/chatHub");
+app.MapHub<ReactionHub>("/reactionHub");
 app.MapHub<FriendRequestHub>("/friendRequestHub");
 
 

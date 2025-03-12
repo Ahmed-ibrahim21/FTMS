@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    [Migration("20250308213312_updatingChatSchema")]
-    partial class updatingChatSchema
+    [Migration("20250309143038_edit-post-model")]
+    partial class editpostmodel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -186,7 +186,6 @@ namespace FTMS.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Image")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Text")
@@ -201,9 +200,8 @@ namespace FTMS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("VideoUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("Video")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("PostId");
 
@@ -365,7 +363,7 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7bf9722b-0692-402b-9dee-64481978bbc5",
+                            ConcurrencyStamp = "dcd89365-4c31-40ae-a424-a262544e99d3",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -373,10 +371,10 @@ namespace FTMS.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOmIe0Eym03Ss/N1iHjQCNk5Vmoo1r0JD4eY8LyZAW29KHEPy65ZgyPy4y0ozXgjLg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPTUXR4DplLu2dPb9XVvKUEnvaFmx76nCcZrhTHdmCLM+UyX/o9AL1zK3dXuwja7Ng==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "a5d8fbd9-15f7-4e8f-94c7-cdcadb7bfb35",
+                            SecurityStamp = "15fd71b6-d679-453a-8226-6caf22ef420d",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });

@@ -10,7 +10,7 @@ namespace FTMS.Repositories
         public RepositoryManager(FTMSContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
-            _postRepository = new Lazy<IPostRepository>(() => new PostRepository(_repositoryContext));
+            //_postRepository = new Lazy<IPostRepository>(() => new PostRepository(_repositoryContext));
             _userRepository = new Lazy<IUserRepository>(() => new UserRepository(_repositoryContext));
         }
 

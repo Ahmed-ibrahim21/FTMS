@@ -197,7 +197,6 @@ namespace FTMS.Migrations
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Image")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Text")
@@ -212,9 +211,8 @@ namespace FTMS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("VideoUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("Video")
+                        .HasColumnType("varbinary(max)");
 
                     b.HasKey("PostId");
 

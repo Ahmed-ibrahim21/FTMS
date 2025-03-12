@@ -1,28 +1,115 @@
-﻿using FTMS.models;
+﻿using AutoMapper;
+using FTMS.DTOs;
+using FTMS.models;
 using FTMS.RepositoriesContracts;
+using FTMS.ServiceContracts;
+using FTMS.Services;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Net;
+using System.Security.Claims;
 
 namespace FTMS.Repositories
 {
-    public class PostRepository :RepositoryBase<Post>, IPostRepository
+    public class PostRepository : IPostRepository
     {
-        public PostRepository(FTMSContext repositoryContext) : base(repositoryContext)
+        private readonly FTMSContext _context;
+        private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public PostRepository(FTMSContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
+            _context = context;
+            _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public void CreatePostForUser(Post post, string UserId)
+        public async Task<GetPostDto> CreatePostAsync(PostDto postDto)
         {
-            post.UserId = UserId;
-            Create(post);
+            if (postDto == null)
+                throw new ArgumentNullException(nameof(postDto), "Post data cannot be null.");
+
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                throw new UnauthorizedAccessException("User is not authenticated.");
+            if(postDto.GroupId == 0)
+            {
+                postDto.GroupId = null;
+            }
+            var post = new Post
+            {
+                Text = postDto.Text,
+                GroupId = postDto.GroupId,
+                TimeStamp = DateTime.UtcNow,
+                UserId = userId
+            };
+            if (postDto.Image != null)
+                post.Image = await ConvertFileToByteArrayAsync(postDto.Image);
+
+            if (postDto.Video != null)
+                post.Video = await ConvertFileToByteArrayAsync(postDto.Video);
+
+            _context.posts.Add(post);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<GetPostDto>(post);
         }
 
-        public void DeletePost(Post post) => Delete(post);
+        public async Task<GetPostDto> UpdatePostAsync(int postId, UpdatePostDto postDto)
+        {
+            var post = await _context.posts.FindAsync(postId);
+            if (post == null)
+                throw new KeyNotFoundException($"Post with ID {postId} not found.");
 
-        public async Task<Post> GetPost(int postId, string userId, bool trackChanges) => await FindByCondition(post => post.PostId.Equals(postId) && post.UserId.Equals(userId), trackChanges).SingleOrDefaultAsync();
+            post.Text = postDto.Text ?? post.Text;
 
-        public async Task<IEnumerable<Post>> GetPosts(string userId, bool trackChanges) => await FindByCondition(post => post.UserId.Equals(userId), trackChanges).ToListAsync();
+            if (postDto.Image != null)
+                post.Image = await ConvertFileToByteArrayAsync(postDto.Image);
 
+            if (postDto.Video != null)
+                post.Video = await ConvertFileToByteArrayAsync(postDto.Video);
+            
+            _context.posts.Update(post);
+            await _context.SaveChangesAsync();
 
-        public void UpdatePost(Post post) => Update(post);
+            return _mapper.Map<GetPostDto>(post);
+        }
+
+        public async Task<bool> DeletePostAsync(int postId)
+        {
+            var post = await _context.posts.FindAsync(postId);
+            if (post == null)
+                throw new KeyNotFoundException($"Post with ID {postId} not found.");
+
+            _context.posts.Remove(post);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<GetPostDto> GetPostByIdAsync(int postId)
+        {
+            var post = await _context.posts.FindAsync(postId);
+            if (post == null)
+                throw new KeyNotFoundException($"Post with ID {postId} not found.");
+
+            return _mapper.Map<GetPostDto>(post);
+        }
+
+        public async Task<List<GetPostDto>> GetAllPostsAsync()
+        {
+            var posts = await _context.posts.ToListAsync();
+            return _mapper.Map<List<GetPostDto>>(posts);
+        }
+
+        private async Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
+        {
+            using var memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            return memoryStream.ToArray();
+        }
     }
+
+
+
 }

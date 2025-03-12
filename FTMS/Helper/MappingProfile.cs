@@ -10,5 +10,20 @@ public class MappingProfile:Profile
     {
         CreateMap<Group, GetGroupDto>();
         CreateMap<GroupDto, Group>();
+        CreateMap<PostDto, Post>()
+                .ForMember(dest => dest.Image, opt => opt.Ignore())
+                .ForMember(dest => dest.Video, opt => opt.Ignore())
+                .ReverseMap();
+        CreateMap<UpdatePostDto, Post>()
+                .ForMember(dest => dest.Image, opt => opt.Ignore())
+                .ForMember(dest => dest.Video, opt => opt.Ignore())
+                .ReverseMap();
+
+        CreateMap<Post, GetPostDto>().ReverseMap();
+
+        CreateMap<CommentDto, Comment>().ReverseMap();
+        CreateMap<GetCommentDto, Comment>().ReverseMap();
+        CreateMap<GetReactionDto, Reaction>().ReverseMap();
+        CreateMap<ReactionDto, Reaction>().ReverseMap();
     }
 }

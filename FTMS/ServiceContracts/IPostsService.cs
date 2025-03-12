@@ -1,13 +1,15 @@
-﻿using FTMS.models;
+﻿using FTMS.DTOs;
+using FTMS.models;
 
 namespace FTMS.ServiceContracts
 {
-    public interface IPostsService
+    public interface IPostService
     {
-        Task<IEnumerable<Post>> GetPosts(string userId, bool trackChanges);
-        Task<Post> GetPost(int postId, string userId, bool trackChanges);
-        void CreatePostForUser(Post post, string UserId);
-        void UpdatePost(Post post);
-        void DeletePost(Post post);
+        Task<GetPostDto> CreatePostAsync(PostDto postDto);
+        Task<GetPostDto> UpdatePostAsync(int postId, UpdatePostDto postDto);
+        Task<bool> DeletePostAsync(int postId);
+        Task<GetPostDto> GetPostByIdAsync(int postId);
+        Task<List<GetPostDto>> GetAllPostsAsync();
     }
+
 }

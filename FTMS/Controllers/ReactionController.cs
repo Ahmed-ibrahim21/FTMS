@@ -7,7 +7,7 @@ namespace FTMS.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class ReactionController : ControllerBase
     {
         private readonly IReactionService _reactionService;

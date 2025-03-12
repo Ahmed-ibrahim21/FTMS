@@ -18,7 +18,7 @@ namespace FTMS.Services
             return await _postRepository.CreatePostAsync(postDto);
         }
 
-        public async Task<GetPostDto> UpdatePostAsync(int postId, PostDto postDto)
+        public async Task<GetPostDto> UpdatePostAsync(int postId, UpdatePostDto postDto)
         {
             return await _postRepository.UpdatePostAsync(postId, postDto);
         }

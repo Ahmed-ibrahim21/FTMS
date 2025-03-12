@@ -14,6 +14,10 @@ public class MappingProfile:Profile
                 .ForMember(dest => dest.Image, opt => opt.Ignore())
                 .ForMember(dest => dest.Video, opt => opt.Ignore())
                 .ReverseMap();
+        CreateMap<UpdatePostDto, Post>()
+                .ForMember(dest => dest.Image, opt => opt.Ignore())
+                .ForMember(dest => dest.Video, opt => opt.Ignore())
+                .ReverseMap();
 
         CreateMap<Post, GetPostDto>().ReverseMap();
 

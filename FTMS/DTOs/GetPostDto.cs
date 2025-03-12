@@ -7,7 +7,6 @@
         public byte[] Image { get; set; }
         public byte[] Video { get; set; }
         public DateTime TimeStamp { get; set; }
-        public int ReactionCount { get; set; }
         public string UserId { get; set; }
         public int? GroupId { get; set; }
     }

@@ -8,7 +8,7 @@ namespace FTMS.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class CommentController : ControllerBase
     {
         private readonly ICommentService _commentService;

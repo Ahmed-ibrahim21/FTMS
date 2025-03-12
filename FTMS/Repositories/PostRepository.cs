@@ -32,7 +32,10 @@ namespace FTMS.Repositories
             var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
                 throw new UnauthorizedAccessException("User is not authenticated.");
-
+            if(postDto.GroupId == 0)
+            {
+                postDto.GroupId = null;
+            }
             var post = new Post
             {
                 Text = postDto.Text,
@@ -40,7 +43,6 @@ namespace FTMS.Repositories
                 TimeStamp = DateTime.UtcNow,
                 UserId = userId
             };
-
             if (postDto.Image != null)
                 post.Image = await ConvertFileToByteArrayAsync(postDto.Image);
 
@@ -53,7 +55,7 @@ namespace FTMS.Repositories
             return _mapper.Map<GetPostDto>(post);
         }
 
-        public async Task<GetPostDto> UpdatePostAsync(int postId, PostDto postDto)
+        public async Task<GetPostDto> UpdatePostAsync(int postId, UpdatePostDto postDto)
         {
             var post = await _context.posts.FindAsync(postId);
             if (post == null)
@@ -66,7 +68,7 @@ namespace FTMS.Repositories
 
             if (postDto.Video != null)
                 post.Video = await ConvertFileToByteArrayAsync(postDto.Video);
-
+            
             _context.posts.Update(post);
             await _context.SaveChangesAsync();
 

@@ -9,7 +9,7 @@ namespace FTMS.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
@@ -20,14 +20,14 @@ namespace FTMS.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost([FromBody] PostDto postDto)
+        public async Task<IActionResult> CreatePost([FromForm] PostDto postDto)
         {
             var post = await _postService.CreatePostAsync(postDto);
             return CreatedAtAction(nameof(GetPostById), new { postId = post.PostId }, post);
         }
 
         [HttpPut("{postId}")]
-        public async Task<IActionResult> UpdatePost(int postId, [FromBody] PostDto postDto)
+        public async Task<IActionResult> UpdatePost(int postId, [FromForm] UpdatePostDto postDto)
         {
             if (postId <= 0)
                 return BadRequest("Post ID must be positive.");

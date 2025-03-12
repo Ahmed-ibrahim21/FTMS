@@ -58,7 +58,7 @@ public class AccountController : ControllerBase
             LastName = model.LastName,
             Email = model.Email,
             UserName = model.Email,
-            IsApproved = model.Role == "Trainer" ? false : true 
+            IsApproved = model.Role == "Trainer" ? false : true
         };
 
         var result = await _userManager.CreateAsync(user, model.Password);
@@ -67,7 +67,11 @@ public class AccountController : ControllerBase
 
         await _userManager.AddToRoleAsync(user, model.Role);
 
-        return Ok(new { Message = "Registration successful. Trainers require admin approval." });
+        var message = model.Role == "Trainer"
+        ? "Registration successful. Trainers require admin approval."
+        : "Registration successful.";
+
+        return Ok(new { Message = message });
     }
 
     [Authorize(Roles = "Admin")]

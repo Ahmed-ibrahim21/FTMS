@@ -17,21 +17,24 @@ namespace FTMS.Services
             _hubContext = hubContext;
         }
 
-        public async Task<GetReactionDto> AddReactionAsync(ReactionDto reactionDto)
+        public async Task<int> AddReactionAsync(ReactionDto reactionDto)
         {
-            var reaction = await _reactionRepository.AddReactionAsync(reactionDto);
-            await _hubContext.Clients.All.SendAsync("ReceiveReaction", reaction); 
-            return reaction;
+            int updatedCount = await _reactionRepository.AddReactionAsync(reactionDto);
+
+            await _hubContext.Clients.Group($"Post_{reactionDto.PostId}")
+                .SendAsync("UpdateLikeCount", reactionDto.PostId, updatedCount);
+
+            return updatedCount;
         }
 
-        public async Task<bool> RemoveReactionAsync(int reactionId)
+        public async Task<int> RemoveReactionAsync(int reactionId)
         {
-            var result = await _reactionRepository.RemoveReactionAsync(reactionId);
-            if (result)
-            {
-                await _hubContext.Clients.All.SendAsync("RemoveReaction", reactionId);
-            }
-            return result;
+            int updatedCount = await _reactionRepository.RemoveReactionAsync(reactionId);
+
+            await _hubContext.Clients.Group($"Post_{reactionId}")
+                .SendAsync("UpdateLikeCount", reactionId, updatedCount);
+
+            return updatedCount;
         }
 
         public async Task<List<GetReactionDto>> GetReactionsByCommentIdAsync(int commentId)

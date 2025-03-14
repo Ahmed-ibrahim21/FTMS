@@ -20,16 +20,20 @@ namespace FTMS.Controllers
         [HttpPost]
         public async Task<IActionResult> AddReaction([FromBody] ReactionDto reactionDto)
         {
-            var reaction = await _reactionService.AddReactionAsync(reactionDto);
-            return CreatedAtAction(nameof(GetReactionsByComment), new { commentId = reaction.CommentId }, reaction);
+            int updatedLikeCount = await _reactionService.AddReactionAsync(reactionDto);
+
+            return Ok(new { postId = reactionDto.PostId, likeCount = updatedLikeCount });
         }
+
 
         [HttpDelete("{reactionId}")]
         public async Task<IActionResult> RemoveReaction(int reactionId)
         {
-            await _reactionService.RemoveReactionAsync(reactionId);
-            return NoContent();
+            int updatedLikeCount = await _reactionService.RemoveReactionAsync(reactionId);
+
+            return Ok(new { reactionId, likeCount = updatedLikeCount });
         }
+
 
         [HttpGet("comment/{commentId}")]
         public async Task<IActionResult> GetReactionsByComment(int commentId)

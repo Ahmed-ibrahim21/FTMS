@@ -101,7 +101,11 @@ namespace FTMS.Repositories
             var posts = await _context.posts.ToListAsync();
             return _mapper.Map<List<GetPostDto>>(posts);
         }
-
+        public async Task<List<GetPostDto>> GetPostsByGroupIdAsync(int groupId)
+        {
+            var posts = await _context.posts.Where(p => p.GroupId == groupId).ToListAsync();
+            return _mapper.Map<List<GetPostDto>>(posts);
+        }
         private async Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
         {
             using var memoryStream = new MemoryStream();

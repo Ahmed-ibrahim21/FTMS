@@ -45,6 +45,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupService, GroupService>();
 builder.Services.AddScoped<IUserGroupRepository, UserGroupRepository>();
+builder.Services.AddScoped<IFriendRequestRepository, FriendRequestRepository>();
+builder.Services.AddScoped<IFriendRequestService, FriendRequestService>();
 
 
 
@@ -141,6 +143,8 @@ app.UseAuthorization();
 
 app.MapHub<ChatHub>("/chatHub");
 app.MapHub<ReactionHub>("/reactionHub");
+app.MapHub<FriendRequestHub>("/friendRequestHub");
+
 
 app.MapControllers();
 

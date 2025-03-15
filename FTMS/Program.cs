@@ -10,6 +10,7 @@ using FTMS.RepositoriesContracts;
 using FTMS.ServiceContracts;
 using FTMS.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -95,6 +96,8 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IReactionRepository, ReactionRepository>();
 builder.Services.AddScoped<IReactionService, ReactionService>();
+builder.Services.AddScoped<IChatRepository, ChatRepository>();
+builder.Services.AddScoped<IChatService, ChatService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -138,7 +141,10 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapHub<ChatHub>("/chatHub");
+app.MapHub<ChatHub>("/chatHub", options => {
+    options.Transports = HttpTransportType.WebSockets;
+    options.WebSockets.CloseTimeout = TimeSpan.FromSeconds(30);
+});
 app.MapHub<ReactionHub>("/reactionHub");
 app.MapHub<FriendRequestHub>("/friendRequestHub");
 

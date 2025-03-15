@@ -25,5 +25,7 @@ public class MappingProfile:Profile
         CreateMap<GetCommentDto, Comment>().ReverseMap();
         CreateMap<GetReactionDto, Reaction>().ReverseMap();
         CreateMap<ReactionDto, Reaction>().ReverseMap();
+
+        CreateMap<GetChatDto, Chat>().ReverseMap();
     }
 }

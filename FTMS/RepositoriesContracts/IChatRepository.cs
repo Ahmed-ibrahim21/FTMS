@@ -4,10 +4,10 @@ namespace FTMS.RepositoriesContracts
 {
     public interface IChatRepository
     {
-        Task<IEnumerable<Chat>> GetChats();
+        Task<IEnumerable<Chat>> GetGroupChats(string userId);
         Task<Chat> GetChat(int id);
-        Task<Chat> CreateChat(Chat chat);
-        Task<Chat> UpdateChat(Chat chat);
-        Task<Chat> DeleteChat(int id);
+        void CreateChat(Chat chat);
+        void UpdateChat(Chat chat);
+        void DeleteChat(int id);
     }
 }

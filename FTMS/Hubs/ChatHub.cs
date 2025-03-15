@@ -1,67 +1,69 @@
 ﻿using FTMS.models;
+using FTMS.models.models_for_M_M;
+using FTMS.ServiceContracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 
 
 namespace FTMS.Hubs
 {
+    [Authorize]
     public class ChatHub : Hub
     {
         private readonly FTMSContext _context;
+        private readonly IUserContextService _userContextService;
 
-        public ChatHub(FTMSContext context)
+        public ChatHub(FTMSContext context, IUserContextService userContextService)
         {
             _context = context;
+            _userContextService = userContextService;
         }
 
-        public async Task SendMessage(string senderId, string receiverId, string message)
+        public async Task SendMessage(int chatId, string messageContent)
         {
-            // Find an existing chat between these users
-            var chat = _context.Chats
-                .Include(c => c.messages)
-                .FirstOrDefault(c => c.messages.Any(m =>
-                    (m.SenderId == senderId && m.RecieverId == receiverId) ||
-                    (m.SenderId == receiverId && m.RecieverId == senderId)));
+            // Get user ID properly
+            var senderId = _userContextService.GetUserId();
+            // Validate chat membership
+            var isValid = await _context.UserChats
+                .AnyAsync(uc => uc.ChatId == chatId && uc.UserId == senderId);
 
-            // If no chat exists, create a new one
-            if (chat == null)
-            {
-                chat = new Chat();
-                _context.Chats.Add(chat);
-                await _context.SaveChangesAsync();
-            }
+            if (!isValid) throw new HubException("Not in chat");
 
-            // Save the message
-            var newMessage = new Message
+            // Save message
+            var message = new Message
             {
-                ChatId = chat.id,
+                Content = messageContent,
+                ChatId = chatId,
                 SenderId = senderId,
-                RecieverId = receiverId,
-                Content = message,
                 SentAt = DateTime.UtcNow
             };
 
-            _context.Messages.Add(newMessage);
+            await _context.Messages.AddAsync(message);
             await _context.SaveChangesAsync();
 
-            // Notify the receiver in real-time
-            await Clients.User(receiverId).SendAsync("ReceiveMessage", senderId, message);
+            // Broadcast
+            await Clients.Group(chatId.ToString())
+                .SendAsync("ReceiveMessage", senderId, messageContent, chatId);
         }
-
-        public async Task<List<Message>> GetChatHistory(string senderId, string receiverId)
+        public async Task JoinChat(int chatId)
         {
-            var chat = _context.Chats
-                .Include(c => c.messages)
-                .FirstOrDefault(c => c.messages.Any(m =>
-                    (m.SenderId == senderId && m.RecieverId == receiverId) ||
-                    (m.SenderId == receiverId && m.RecieverId == senderId)));
+            await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
+        }
+        public override async Task OnConnectedAsync()
+        {
+            var userId = Context.UserIdentifier;
+            var userChats = await _context.UserChats
+                .Where(uc => uc.UserId == userId)
+                .Select(uc => uc.ChatId)
+                .ToListAsync();
 
-            if (chat == null)
-                return new List<Message>();
+            foreach (var chatId in userChats)
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, chatId.ToString());
+            }
 
-            return chat.messages.OrderBy(m => m.SentAt).ToList();
+            await base.OnConnectedAsync();
         }
     }
 }

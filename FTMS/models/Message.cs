@@ -19,12 +19,9 @@ namespace FTMS.models
         [ForeignKey("SenderId")]
         public User Sender { get; set; }
 
-        public string RecieverId { get; set; }
-        [ForeignKey("RecieverId")]
-        public User Reciever { get; set; }
         public int ChatId { get; set; }
-        
         [ForeignKey("ChatId")]
         public Chat Chat { get; set; }
     }
+
 }

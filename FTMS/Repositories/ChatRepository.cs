@@ -1,16 +1,20 @@
 ﻿using FTMS.models;
 using FTMS.RepositoriesContracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace FTMS.Repositories
 {
     public class ChatRepository : IChatRepository
     {
-        public Task<Chat> CreateChat(Chat chat)
+    private readonly FTMSContext _context;
+
+       public ChatRepository(FTMSContext context) => _context = context;
+        public void CreateChat(Chat chat)
         {
-            throw new NotImplementedException();
+            _context.Chats.Add(chat);
         }
 
-        public Task<Chat> DeleteChat(int id)
+        public void DeleteChat(int id)
         {
             throw new NotImplementedException();
         }
@@ -20,12 +24,17 @@ namespace FTMS.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Chat>> GetChats()
+        public async Task<IEnumerable<Chat>> GetGroupChats(string userId)
         {
-            throw new NotImplementedException();
+            var chats = await _context.Chats
+            .Where(c => c.IsGroupChat && c.userChats.Any(uc => uc.UserId == userId))
+            .AsNoTracking()
+            .ToListAsync();
+
+            return chats;
         }
 
-        public Task<Chat> UpdateChat(Chat chat)
+        public void UpdateChat(Chat chat)
         {
             throw new NotImplementedException();
         }

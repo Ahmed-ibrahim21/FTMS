@@ -9,7 +9,7 @@ namespace FTMS.Extensions
     services.AddCors(options =>
     {
         options.AddPolicy("CorsPolicy", builder =>
-            builder.WithOrigins("https://localhost:3003") // Your React port
+            builder.WithOrigins("https://localhost:3000") // Your React port
     .AllowAnyHeader()
     .AllowAnyMethod()
     .AllowCredentials()

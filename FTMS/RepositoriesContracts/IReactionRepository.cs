@@ -4,8 +4,8 @@ namespace FTMS.RepositoriesContracts
 {
     public interface IReactionRepository
     {
-        Task<GetReactionDto> AddReactionAsync(ReactionDto reactionDto);
-        Task<bool> RemoveReactionAsync(int reactionId);
+        Task<int> AddReactionAsync(ReactionDto reactionDto);
+        Task<int> RemoveReactionAsync(int reactionId);
         Task<List<GetReactionDto>> GetReactionsByCommentIdAsync(int commentId);
         Task<List<GetReactionDto>> GetReactionsByPostIdAsync(int postId);
     }

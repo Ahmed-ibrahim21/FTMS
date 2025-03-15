@@ -11,6 +11,7 @@ namespace FTMS.RepositoriesContracts
         Task<bool> DeletePostAsync(int postId);
         Task<GetPostDto> GetPostByIdAsync(int postId);
         Task<List<GetPostDto>> GetAllPostsAsync();
+        Task<List<GetPostDto>> GetPostsByGroupIdAsync(int groupId);
     }
 
 }

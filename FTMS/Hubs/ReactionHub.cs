@@ -5,15 +5,14 @@ namespace FTMS.Hubs
 {
     public class ReactionHub : Hub
     {
-        public async Task SendReaction(GetReactionDto reaction)
+        public async Task JoinPostGroup(int postId)
         {
-            await Clients.All.SendAsync("ReceiveReaction", reaction);
+            await Groups.AddToGroupAsync(Context.ConnectionId, $"Post_{postId}");
         }
 
-        public async Task RemoveReaction(int reactionId)
+        public async Task LeavePostGroup(int postId)
         {
-            await Clients.All.SendAsync("RemoveReaction", reactionId);
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"Post_{postId}");
         }
     }
-
 }

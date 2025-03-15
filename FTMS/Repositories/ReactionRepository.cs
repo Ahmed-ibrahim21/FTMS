@@ -20,7 +20,7 @@ namespace FTMS.Repositories
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<GetReactionDto> AddReactionAsync(ReactionDto reactionDto)
+        public async Task<int> AddReactionAsync(ReactionDto reactionDto)
         {
             var userId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
@@ -36,11 +36,13 @@ namespace FTMS.Repositories
 
             _context.Reactions.Add(reaction);
             await _context.SaveChangesAsync();
-
-            return _mapper.Map<GetReactionDto>(reaction);
+            int updatedLikeCount = await _context.Reactions
+        .Where(r => r.PostId == reactionDto.PostId)
+        .CountAsync();
+            return updatedLikeCount;
         }
 
-        public async Task<bool> RemoveReactionAsync(int reactionId)
+        public async Task<int> RemoveReactionAsync(int reactionId)
         {
             var reaction = await _context.Reactions.FindAsync(reactionId);
             if (reaction == null)
@@ -48,7 +50,11 @@ namespace FTMS.Repositories
 
             _context.Reactions.Remove(reaction);
             await _context.SaveChangesAsync();
-            return true;
+            int updatedLikeCount = await _context.Reactions
+                    .Where(r => r.PostId == reaction.PostId)
+                    .CountAsync(); 
+
+            return updatedLikeCount;
         }
 
         public async Task<List<GetReactionDto>> GetReactionsByCommentIdAsync(int commentId)

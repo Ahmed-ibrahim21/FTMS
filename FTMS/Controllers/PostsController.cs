@@ -56,6 +56,12 @@ namespace FTMS.Controllers
             var posts = await _postService.GetAllPostsAsync();
             return Ok(posts);
         }
+        [HttpGet("{groupId}")]
+        public async Task<IActionResult> GetAllPosts(int groupId)
+        {
+            var posts = await _postService.GetPostsByGroupIdAsync(groupId);
+            return Ok(posts);
+        }
     }
 
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FTMS.DTOs;
 using FTMS.models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FTMS.Helper;
 
@@ -25,7 +26,10 @@ public class MappingProfile:Profile
         CreateMap<GetCommentDto, Comment>().ReverseMap();
         CreateMap<GetReactionDto, Reaction>().ReverseMap();
         CreateMap<ReactionDto, Reaction>().ReverseMap();
-
+        CreateMap<UserProfileDto, User>()
+                       .ForMember(dest => dest.ProfilePic, opt => opt.Ignore())
+                       .ReverseMap();
+        CreateMap<GetUserProfileDto, User>().ReverseMap();
         CreateMap<GetChatDto, Chat>().ReverseMap();
     }
 }

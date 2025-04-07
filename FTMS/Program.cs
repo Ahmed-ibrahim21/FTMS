@@ -1,4 +1,5 @@
-﻿using FTMS;
+﻿using AspNetCoreRateLimit;
+using FTMS;
 using FTMS.Configuration;
 using FTMS.Extensions;
 using FTMS.Helper;
@@ -42,6 +43,8 @@ builder.Services.AddIdentity<User, IdentityRole>()
 
 builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddMemoryCache();
 
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupService, GroupService>();
@@ -87,7 +90,7 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
 
 builder.Services.AddScoped<JwtService>();
-
+builder.Services.ConfigureRateLimitingOptions();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<IPostService, PostService>();
@@ -136,7 +139,7 @@ var app = builder.Build();
 
 
 
-
+app.UseIpRateLimiting();
 app.UseCors("CorsPolicy");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

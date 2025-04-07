@@ -91,6 +91,20 @@ public class AccountController : ControllerBase
 
         return Ok(new { Message = "Trainer approved successfully." });
     }
+    [HttpPost("change-password")]
+    [Authorize(Roles = "Admin,User,Trainer")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto model)
+    {
+        var user = await _userManager.FindByEmailAsync(model.Email);
+        if (user == null)
+            return NotFound("User not found.");
+
+        var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+        if (!result.Succeeded)
+            return BadRequest(result.Errors);
+
+        return Ok(new { Message = "Password changed successfully." });
+    }
 }
 
 

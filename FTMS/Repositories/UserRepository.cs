@@ -4,29 +4,43 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FTMS.Repositories
 {
-    public class UserRepository : RepositoryBase<User> , IUserRepository
+    public class UserRepository :  IUserRepository
     {
-        public UserRepository(FTMSContext repositoryContext) : base(repositoryContext)
+        private readonly FTMSContext _context;
+
+        public UserRepository(FTMSContext context)
         {
+            _context = context;
         }
 
-        public Task<User> Authenticate(string userName, string password)
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Users.ToListAsync();
         }
 
-        public void CreateUser(User user) =>  Create(user);
+        public async Task<User?> GetByIdAsync(string id)
+        {
+            return await _context.Users.FindAsync(id);
+        }
 
-        public void DeleteUser(User user) => Delete(user);
+        public async Task AddAsync(User user)
+        {
+            await _context.Users.AddAsync(user);
+        }
 
-        public async Task<User> GetUser(string id, bool trackChanges) => await FindByCondition(user => user.Id.Equals(id),trackChanges).SingleOrDefaultAsync();
+        public void Update(User user)
+        {
+            _context.Users.Update(user);
+        }
 
-        public async Task<User> GetUserByEmail(string email, bool trackChanges) => await FindByCondition(user => user.Email.Equals(email), trackChanges).SingleOrDefaultAsync();
+        public void Delete(User user)
+        {
+            _context.Users.Remove(user);
+        }
 
-        public async Task<User> GetUserByUserName(string userName, bool trackChanges) => await FindByCondition(user => user.UserName.Equals(userName), trackChanges).SingleOrDefaultAsync();
-
-        public async Task<IEnumerable<User>> GetUsers(bool trackchanges) => await FindAll(trackchanges).ToListAsync();
-
-        public void UpdateUser(User user) => Update(user);
+        public async Task<bool> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }

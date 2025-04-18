@@ -75,6 +75,14 @@ namespace FTMS.Controllers
             var posts = await _postService.GetPostsByUserIdAsync(userId);
             return Ok(posts);
         }
+
+        [Authorize]
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserPosts(string userId)
+        {
+            var posts = await _postService.GetPostsByUserIdAsync(userId);
+            return Ok(posts);
+        }
     }
 
 

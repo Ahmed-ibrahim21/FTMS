@@ -1,4 +1,5 @@
-﻿using FTMS.models;
+﻿using FTMS.DTOs;
+using FTMS.models;
 
 namespace FTMS.RepositoriesContracts
 {
@@ -12,8 +13,13 @@ namespace FTMS.RepositoriesContracts
 
         public Task<WorkoutPlan> GetWorkoutPlanByIdAsync(int workoutPlanId);
 
-        public Task<List<WorkoutPlan>> GetAllWorkoutPlansForUserAsync(string UserId);
+        public Task<List<WorkoutsResponse>> GetAllWorkoutPlansForUserAsync(string UserId);
 
         public Task<List<WorkoutPlan>> GetAllWorkoutPlansForTrainerAsync(string TrainerId);
+
+        public Task<bool> AddWorkoutMoveAsync(workoutMove workoutMove);
+
+
+
     }
 }

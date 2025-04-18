@@ -112,6 +112,12 @@ namespace FTMS.Repositories
             await file.CopyToAsync(memoryStream);
             return memoryStream.ToArray();
         }
+
+        public async Task<List<GetPostDto>> GetPostsByUserIdAsync(string userId)
+        {
+            var posts = await _context.posts.Where(p => p.UserId == userId).ToListAsync();
+            return _mapper.Map<List<GetPostDto>>(posts);
+        }
     }
 
 

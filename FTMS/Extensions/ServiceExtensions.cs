@@ -28,8 +28,8 @@ namespace FTMS.Extensions
                 new RateLimitRule
                 {
                     Endpoint = "*",
-                    Limit = 10,
-                    Period = "10s"
+                    Limit = 10000,
+                    Period = "5s"
                 }
             };
             services.Configure<IpRateLimitOptions>(opt => { opt.GeneralRules = rateLimitRules;

@@ -9,6 +9,7 @@ namespace FTMS.RepositoriesContracts
         Task<bool> DeleteCommentAsync(int commentId);
         Task<GetCommentDto> GetCommentByIdAsync(int commentId);
         Task<List<GetCommentDto>> GetAllCommentsAsync();
+        Task<List<GetCommentDto>> GetCommentsByPostIdAsync(int postId); 
     }
 
 }

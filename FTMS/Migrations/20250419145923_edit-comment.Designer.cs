@@ -4,6 +4,7 @@ using FTMS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    partial class FTMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250419145923_edit-comment")]
+    partial class editcomment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,11 +191,11 @@ namespace FTMS.Migrations
 
             modelBuilder.Entity("FTMS.models.Post", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
                     b.Property<int?>("GroupId")
                         .HasColumnType("int");
@@ -215,7 +218,7 @@ namespace FTMS.Migrations
                     b.Property<byte[]>("Video")
                         .HasColumnType("varbinary(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("PostId");
 
                     b.HasIndex("GroupId");
 
@@ -375,7 +378,7 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8eaf9538-d176-471f-95ab-932277d4aa17",
+                            ConcurrencyStamp = "fbbd64cc-ce4a-4be8-931f-6e3bb6f6e7c3",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -384,10 +387,10 @@ namespace FTMS.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMQsbH/SyKRsFzPwE7OopT22OVXuL7Pg58geelIRKs1tVeD1EIeTGolOS0v3CRtS6w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMZboZXjVHU5g2+0aXrv4PnTX79MgGQV1SM2LVtzZ6azpnBwefPxzJwajkTkfj748A==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "cd731c77-6c59-4521-972f-9e01da279a9a",
+                            SecurityStamp = "431d8704-dfee-43d9-9fa6-88c32b023204",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });

@@ -7,6 +7,8 @@ namespace FTMS.DTOs
         [Required]
         [MaxLength(255)]
         public string Text { get; set; }
+        [Required]
+        public int PostId { get; set; }
     }
 
 }

@@ -35,7 +35,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddDbContext<FTMSContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Ahmed")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GP")));
 
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<FTMSContext>()

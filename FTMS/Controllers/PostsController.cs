@@ -25,7 +25,7 @@ namespace FTMS.Controllers
         public async Task<IActionResult> CreatePost([FromForm] PostDto postDto)
         {
             var post = await _postService.CreatePostAsync(postDto);
-            return CreatedAtAction(nameof(GetPostById), new { postId = post.PostId }, post);
+            return CreatedAtAction(nameof(GetPostById), new { postId = post.Id }, post);
         }
 
         [HttpPut("{postId}")]

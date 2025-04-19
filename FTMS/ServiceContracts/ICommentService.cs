@@ -9,6 +9,8 @@ namespace FTMS.ServiceContracts
         Task<bool> DeleteCommentAsync(int commentId);
         Task<GetCommentDto> GetCommentByIdAsync(int commentId);
         Task<List<GetCommentDto>> GetAllCommentsAsync();
+        Task<List<GetCommentDto>> GetCommentsByPostIdAsync(int postId);
+
     }
 
 }

@@ -22,5 +22,7 @@ namespace FTMS.models
 
         public List<UserDiets> UserDiets { get; set; }
 
+        public List<WorkoutPlan> WorkoutPlans { get; set; }
+
     }
 }

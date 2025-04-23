@@ -6,5 +6,6 @@
 
         public List<Rating>? Ratings { get; set; }
 
+        public List<WorkoutPlan>? WorkoutPlans { get; set; }
     }
 }

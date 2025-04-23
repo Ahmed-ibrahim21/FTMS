@@ -13,17 +13,19 @@ namespace FTMS.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService;
+        private readonly IUserContextService _userContextService;
 
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, IUserContextService userContextService)
         {
             _postService = postService;
+            _userContextService = userContextService;
         }
 
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromForm] PostDto postDto)
         {
             var post = await _postService.CreatePostAsync(postDto);
-            return CreatedAtAction(nameof(GetPostById), new { postId = post.PostId }, post);
+            return CreatedAtAction(nameof(GetPostById), new { postId = post.Id }, post);
         }
 
         [HttpPut("{postId}")]
@@ -60,6 +62,25 @@ namespace FTMS.Controllers
         public async Task<IActionResult> GetAllPosts(int groupId)
         {
             var posts = await _postService.GetPostsByGroupIdAsync(groupId);
+            return Ok(posts);
+        }
+
+        [Authorize]
+        [HttpGet("MyPosts")]
+        public async Task<IActionResult> GetMyPosts()
+        {
+            var userId = _userContextService.GetUserId();
+            if (userId == null)
+                return Unauthorized();
+            var posts = await _postService.GetPostsByUserIdAsync(userId);
+            return Ok(posts);
+        }
+
+        [Authorize]
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserPosts(string userId)
+        {
+            var posts = await _postService.GetPostsByUserIdAsync(userId);
             return Ok(posts);
         }
     }

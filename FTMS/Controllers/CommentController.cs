@@ -55,6 +55,12 @@ namespace FTMS.Controllers
             var comments = await _commentService.GetAllCommentsAsync();
             return Ok(comments);
         }
+        [HttpGet("{PostId}")]
+        public async Task<IActionResult> GetCommentsByPostId(int PostId)
+        {
+            var comments = await _commentService.GetCommentsByPostIdAsync(PostId);
+            return Ok(comments);
+        }
     }
 
 }

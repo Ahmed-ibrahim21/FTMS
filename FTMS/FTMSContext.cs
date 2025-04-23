@@ -34,6 +34,10 @@ namespace FTMS
 
         public DbSet<UserGroup> UserGroups { get; set; }
 
+        public DbSet<WorkoutPlan> WorkoutPlans { get; set; }
+
+        public DbSet<workoutMove> workoutMoves { get; set; }
+
 
         public FTMSContext(DbContextOptions<FTMSContext> options) : base(options)
         {

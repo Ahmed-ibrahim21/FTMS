@@ -12,6 +12,8 @@ namespace FTMS.RepositoriesContracts
         Task<GetPostDto> GetPostByIdAsync(int postId);
         Task<List<GetPostDto>> GetAllPostsAsync();
         Task<List<GetPostDto>> GetPostsByGroupIdAsync(int groupId);
+
+        Task<List<GetPostDto>> GetPostsByUserIdAsync(string userId);
     }
 
 }

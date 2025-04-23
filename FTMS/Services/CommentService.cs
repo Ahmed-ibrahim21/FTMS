@@ -37,6 +37,10 @@ namespace FTMS.Services
         {
             return await _commentRepository.GetAllCommentsAsync();
         }
+        public async Task<List<GetCommentDto>> GetCommentsByPostIdAsync(int postId)
+        {
+            return await _commentRepository.GetCommentsByPostIdAsync(postId);
+        }
     }
 
 }

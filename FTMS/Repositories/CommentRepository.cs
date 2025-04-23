@@ -29,11 +29,16 @@ namespace FTMS.Repositories
             if (string.IsNullOrEmpty(userId))
                 throw new UnauthorizedAccessException("User is not authenticated.");
 
+            var postExists = await _context.posts.AnyAsync(p => p.Id == commentDto.PostId);
+            if (!postExists)
+                throw new KeyNotFoundException($"Post with ID {commentDto.PostId} not found.");
+
             var comment = new Comment
             {
                 Text = commentDto.Text,
                 TimeStamp = DateTime.UtcNow,
-                UserId = userId
+                UserId = userId,
+                PostId = commentDto.PostId
             };
 
             _context.Comments.Add(comment);
@@ -69,7 +74,11 @@ namespace FTMS.Repositories
 
         public async Task<GetCommentDto> GetCommentByIdAsync(int commentId)
         {
-            var comment = await _context.Comments.FindAsync(commentId);
+            var comment = await _context.Comments
+                .Include(c => c.User)  
+                .Include(c => c.Post)  
+                .FirstOrDefaultAsync(c => c.Id == commentId);
+
             if (comment == null)
                 throw new KeyNotFoundException($"Comment with ID {commentId} not found.");
 
@@ -78,9 +87,23 @@ namespace FTMS.Repositories
 
         public async Task<List<GetCommentDto>> GetAllCommentsAsync()
         {
-            var comments = await _context.Comments.ToListAsync();
+            var comments = await _context.Comments
+                .Include(c => c.User)
+                .Include(c => c.Post)
+                .ToListAsync();
+
+            return _mapper.Map<List<GetCommentDto>>(comments);
+        }
+
+        public async Task<List<GetCommentDto>> GetCommentsByPostIdAsync(int postId)
+        {
+            var comments = await _context.Comments
+                .Where(c => c.PostId == postId)
+                .Include(c => c.User)
+                .OrderByDescending(c => c.TimeStamp)
+                .ToListAsync();
+
             return _mapper.Map<List<GetCommentDto>>(comments);
         }
     }
-
 }

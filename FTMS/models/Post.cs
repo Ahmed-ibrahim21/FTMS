@@ -5,7 +5,7 @@ namespace FTMS.models
     public class Post
     {
         [Key]
-        public int PostId { get; set; }
+        public int Id { get; set; }
 
         [MaxLength(1000)]
         public string Text { get; set; }

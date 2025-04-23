@@ -41,6 +41,11 @@ namespace FTMS.Services
         {
             return await _postRepository.GetAllPostsAsync();
         }
+
+        public async Task<List<GetPostDto>> GetPostsByUserIdAsync(string userId)
+        {
+            return await _postRepository.GetPostsByUserIdAsync(userId);
+        }
     }
 
 }

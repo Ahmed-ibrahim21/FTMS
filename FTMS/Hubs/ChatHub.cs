@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FTMS.Hubs
 {
-    [Authorize]
+    //[Authorize]
     public class ChatHub : Hub
     {
         private readonly FTMSContext _context;

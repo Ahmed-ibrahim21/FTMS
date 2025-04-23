@@ -1,4 +1,5 @@
-﻿using FTMS.Repositories;
+﻿using AspNetCoreRateLimit;
+using FTMS.Repositories;
 using FTMS.RepositoriesContracts;
 
 namespace FTMS.Extensions
@@ -19,5 +20,24 @@ namespace FTMS.Extensions
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
        services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+        public static void ConfigureRateLimitingOptions(this IServiceCollection services)
+        {
+            var rateLimitRules = new List<RateLimitRule>
+            {
+                new RateLimitRule
+                {
+                    Endpoint = "*",
+                    Limit = 10000,
+                    Period = "5s"
+                }
+            };
+            services.Configure<IpRateLimitOptions>(opt => { opt.GeneralRules = rateLimitRules;
+            });
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            services.AddSingleton<IProcessingStrategy,AsyncKeyLockProcessingStrategy>();
+        }
     }
 }

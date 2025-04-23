@@ -4,6 +4,7 @@ using FTMS;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FTMS.Migrations
 {
     [DbContext(typeof(FTMSContext))]
-    partial class FTMSContextModelSnapshot : ModelSnapshot
+    [Migration("20250408005432_AddedWorkOuts")]
+    partial class AddedWorkOuts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +53,6 @@ namespace FTMS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -66,8 +66,6 @@ namespace FTMS.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -188,11 +186,11 @@ namespace FTMS.Migrations
 
             modelBuilder.Entity("FTMS.models.Post", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
                     b.Property<int?>("GroupId")
                         .HasColumnType("int");
@@ -215,7 +213,7 @@ namespace FTMS.Migrations
                     b.Property<byte[]>("Video")
                         .HasColumnType("varbinary(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("PostId");
 
                     b.HasIndex("GroupId");
 
@@ -375,7 +373,7 @@ namespace FTMS.Migrations
                         {
                             Id = "0BE7B103-1D31-420F-853C-EE3BC9236FB4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8eaf9538-d176-471f-95ab-932277d4aa17",
+                            ConcurrencyStamp = "f2da8eec-ce55-4b18-aab8-2c444e2bc093",
                             Email = "admin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "System",
@@ -384,10 +382,10 @@ namespace FTMS.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMQsbH/SyKRsFzPwE7OopT22OVXuL7Pg58geelIRKs1tVeD1EIeTGolOS0v3CRtS6w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHgv/c28krrbK65eJkLsH0mQfjDwFSEzcDXcRttvhJfahI/FqJKSj3TZrkmWfqXBOQ==",
                             PhoneNumberConfirmed = false,
                             ProfilePic = new byte[0],
-                            SecurityStamp = "cd731c77-6c59-4521-972f-9e01da279a9a",
+                            SecurityStamp = "a823559a-278f-4b78-84f1-77192bb489a3",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -689,19 +687,11 @@ namespace FTMS.Migrations
 
             modelBuilder.Entity("FTMS.models.Comment", b =>
                 {
-                    b.HasOne("FTMS.models.Post", "Post")
-                        .WithMany()
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FTMS.models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });

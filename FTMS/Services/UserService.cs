@@ -26,8 +26,10 @@ public class UserService:IUserService
             Id = u.Id,
             FirstName = u.FirstName,
             LastName = u.LastName,
-            Email = u.Email
+            Email = u.Email,
+            ProfilePicBase64 = u.ProfilePic != null ? Convert.ToBase64String(u.ProfilePic) : null
         });
+
     }
 
     public async Task<UserDto?> GetByIdAsync(string id)
@@ -40,7 +42,7 @@ public class UserService:IUserService
             Id = user.Id,
             FirstName = user.FirstName,
             LastName = user.LastName,
-            Email = user.Email
+            ProfilePicBase64 = user.ProfilePic != null ? Convert.ToBase64String(user.ProfilePic) : null
         };
     }
 
@@ -110,6 +112,29 @@ public class UserService:IUserService
             Email = user.Email,
 
         };
+    }
+    public async Task<List<UserDto>> SearchByNameAsync(string name)
+    {
+        name = name.ToLower();
+
+        var users = await _userManager.Users
+            .Where(u =>
+                (u.FirstName != null && u.FirstName.ToLower().Contains(name)) ||
+                (u.LastName != null && u.LastName.ToLower().Contains(name)) ||
+                (u.FirstName != null && u.LastName != null &&
+                 (u.FirstName + " " + u.LastName).ToLower().Contains(name)))
+            .ToListAsync();
+
+        var result = users.Select(user => new UserDto
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            ProfilePicBase64 = user.ProfilePic != null ? Convert.ToBase64String(user.ProfilePic) : null
+        }).ToList();
+
+        return result;
     }
 
 }

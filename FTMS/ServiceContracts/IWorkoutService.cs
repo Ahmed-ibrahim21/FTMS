@@ -11,5 +11,7 @@ namespace FTMS.ServiceContracts
 
         Task<IEnumerable<WorkoutsResponse>> GetAllWorkoutPlansForUserAsync(string userId);
 
+        Task<bool> UpdateWorkoutPlanAsync(int workoutId, UpdateWorkoutDto updateWorkoutDto,string trainerId);
+
     }
 }

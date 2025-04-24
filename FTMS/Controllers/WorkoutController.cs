@@ -53,5 +53,21 @@ namespace FTMS.Controllers
             var workoutPlans = await _workoutService.GetAllWorkoutPlansForUserAsync(userId);
             return Ok(workoutPlans);
         }
+
+        [HttpPut("{workoutId}")]
+        [Authorize(Roles = "Admin,Trainer")]
+        public async Task<IActionResult> UpdateWorkoutPlan(int workoutId, [FromBody] UpdateWorkoutDto updateWorkoutDto)
+        {
+            if (updateWorkoutDto == null)
+                return BadRequest("Workout plan data is required.");
+            var trainerId = _userContextService.GetUserId();
+            var result = await _workoutService.UpdateWorkoutPlanAsync(workoutId,updateWorkoutDto,trainerId);
+            if (result)
+                return Ok(new { message = "Workout plan updated successfully." });
+            else
+                return BadRequest("Failed to update workout plan.");
+        }
+
+
     }
 }

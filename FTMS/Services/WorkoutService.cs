@@ -53,5 +53,25 @@ namespace FTMS.Services
             var workoutPlans = await _workoutRepository.GetAllWorkoutPlansForUserAsync(userId);
             return workoutPlans;
         }
+
+        public async Task<bool> UpdateWorkoutPlanAsync(int workoutId, UpdateWorkoutDto updateWorkoutDto, string trainerId)
+        {
+            var workoutPlan = await _workoutRepository.GetWorkoutPlanByIdAsync(workoutId);
+            if(workoutPlan == null || workoutPlan.TrainerId != trainerId)
+            {
+                return false;
+            }
+            workoutPlan.Name = updateWorkoutDto.Name;
+            workoutPlan.Moves = updateWorkoutDto.Moves.Select(move => new workoutMove
+            {
+                Sets = move.Sets,
+                Reps = move.Reps,
+                Name = move.Name,
+                Description = move.Description,
+                Video = move.Video,
+                Image = move.Image
+            }).ToList();
+            return await _workoutRepository.UpdateWorkoutPlanAsync(workoutPlan);
+        }
     }
 }

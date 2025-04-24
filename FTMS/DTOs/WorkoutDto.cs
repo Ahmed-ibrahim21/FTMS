@@ -34,4 +34,10 @@
 
         public string TrainerName { get; set; } = string.Empty;
     }
+
+    public class UpdateWorkoutDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public IEnumerable<CreateWorkoutMoveDto> Moves { get; set; } = new List<CreateWorkoutMoveDto>();
+    } 
 }

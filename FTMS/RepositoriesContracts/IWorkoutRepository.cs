@@ -19,6 +19,7 @@ namespace FTMS.RepositoriesContracts
 
         public Task<bool> AddWorkoutMoveAsync(workoutMove workoutMove);
 
+        public Task<bool> DeleteWorkoutMoveAsync(int workoutId, int moveId);
 
 
     }

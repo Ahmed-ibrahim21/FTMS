@@ -73,5 +73,13 @@ namespace FTMS.Repositories
             await _context.workoutMoves.AddAsync(workoutMove);
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<bool> DeleteWorkoutMoveAsync(int workoutId, int moveId)
+        {
+            var workoutMove = await _context.workoutMoves.FirstOrDefaultAsync(w => w.Id == moveId && w.WorkoutId == workoutId);
+            if (workoutMove == null) return false;
+            _context.workoutMoves.Remove(workoutMove);
+            return await _context.SaveChangesAsync() > 0;
+        }
     }
 }

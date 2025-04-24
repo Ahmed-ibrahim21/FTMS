@@ -83,5 +83,15 @@ namespace FTMS.Services
             }
             return await _workoutRepository.DeleteWorkoutPlanAsync(workoutId);
         }
+
+        public async Task<bool> DeleteWorkoutMoveAsync(int workoutId, int moveId, string trainerId)
+        {
+            var workoutPlan = await _workoutRepository.GetWorkoutPlanByIdAsync(workoutId);
+            if (workoutPlan == null || workoutPlan.TrainerId != trainerId)
+            {
+                return false;
+            }
+            return await _workoutRepository.DeleteWorkoutMoveAsync(workoutId, moveId);
+        }
     }
 }

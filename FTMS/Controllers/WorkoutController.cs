@@ -24,7 +24,7 @@ namespace FTMS.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateWorkoutPlan([FromBody] CreateWorkoutDto createWorkoutDto)
         {
-            if(createWorkoutDto == null)            
+            if (createWorkoutDto == null)
                 return BadRequest("Workout plan data is required.");
             var trainerId = _userContextService.GetUserId();
             var workoutPlan = await _workoutService.CreateWorkoutPlanAsync(createWorkoutDto, trainerId);

@@ -20,6 +20,15 @@ namespace FTMS.Services
                 Name = workoutPlanDto.Name,
                 UserId = workoutPlanDto.UserId,
                 TrainerId = trainerId,
+                Moves = workoutPlanDto.Moves.Select(move => new workoutMove
+                {
+                    Sets = move.Sets,
+                    Reps = move.Reps,
+                    Name = move.Name,
+                    Description = move.Description,
+                    Video = move.Video,
+                    Image = move.Image
+                }).ToList()
             };
             return await _workoutRepository.CreateWorkoutPlanAsync(workoutPlan);
         }

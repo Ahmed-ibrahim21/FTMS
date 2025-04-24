@@ -28,8 +28,15 @@ namespace FTMS.Repositories
         }
         public async Task<bool> DeleteWorkoutPlanAsync(int workoutPlanId)
         {
-            var workoutPlan = await _context.WorkoutPlans.FindAsync(workoutPlanId);
+            var workoutPlan = await _context.WorkoutPlans.Include(w => w.Moves).FirstOrDefaultAsync(w => w.Id == workoutPlanId);
             if (workoutPlan == null) return false;
+            if(workoutPlan.Moves != null)
+            {
+                foreach (var move in workoutPlan.Moves)
+                {
+                    _context.workoutMoves.Remove(move);
+                }
+            }
             _context.WorkoutPlans.Remove(workoutPlan);
             return await _context.SaveChangesAsync() > 0;
         }

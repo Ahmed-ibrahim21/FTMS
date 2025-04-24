@@ -13,7 +13,7 @@ namespace FTMS.Services
         {
             _workoutRepository = workoutRepository;
         }
-        public async Task<bool> CreateWorkoutPlanAsync(CreateWorkoutDto workoutPlanDto,string trainerId)
+        public async Task<bool> CreateWorkoutPlanAsync(CreateWorkoutDto workoutPlanDto, string trainerId)
         {
             var workoutPlan = new WorkoutPlan
             {
@@ -57,7 +57,7 @@ namespace FTMS.Services
         public async Task<bool> UpdateWorkoutPlanAsync(int workoutId, UpdateWorkoutDto updateWorkoutDto, string trainerId)
         {
             var workoutPlan = await _workoutRepository.GetWorkoutPlanByIdAsync(workoutId);
-            if(workoutPlan == null || workoutPlan.TrainerId != trainerId)
+            if (workoutPlan == null || workoutPlan.TrainerId != trainerId)
             {
                 return false;
             }
@@ -72,6 +72,16 @@ namespace FTMS.Services
                 Image = move.Image
             }).ToList();
             return await _workoutRepository.UpdateWorkoutPlanAsync(workoutPlan);
+        }
+
+        public async Task<bool> DeleteWorkoutPlanAsync(int workoutId, string trainerId)
+        {
+            var workoutPlan = await _workoutRepository.GetWorkoutPlanByIdAsync(workoutId);
+            if (workoutPlan == null || workoutPlan.TrainerId != trainerId)
+            {
+                return false;
+            }
+            return await _workoutRepository.DeleteWorkoutPlanAsync(workoutId);
         }
     }
 }

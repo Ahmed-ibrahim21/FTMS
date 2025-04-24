@@ -68,6 +68,17 @@ namespace FTMS.Controllers
                 return BadRequest("Failed to update workout plan.");
         }
 
+        [HttpDelete("{workoutId}")]
+        [Authorize(Roles = "Admin,Trainer")]
+        public async Task<IActionResult> DeleteWorkoutPlan(int workoutId)
+        {
+            var trainerId = _userContextService.GetUserId();
+            var result = await _workoutService.DeleteWorkoutPlanAsync(workoutId, trainerId);
+            if (result)
+                return Ok(new { message = "Workout plan deleted successfully." });
+            else
+                return BadRequest("Failed to delete workout plan.");
+        }
 
     }
 }

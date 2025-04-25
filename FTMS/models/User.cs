@@ -14,7 +14,6 @@ namespace FTMS.models
         public byte[]? ProfilePic { get; set; }
 
 
-        public List<DietPlan> dietPlans {  get; set; }
 
         public List<UserGroup> UserGroups { get; set; }
 

@@ -14,6 +14,10 @@ namespace FTMS
 
         public DbSet<DietPlan> DietPlans { get; set; }
 
+        public DbSet<DietMeal> dietMeals { get; set; }
+
+        public DbSet<Ingredients> Ingredients { get; set; }
+
         public DbSet<FriendRequest> FriendRequests { get; set; }
 
         public DbSet<Group> Groups { get; set; }
@@ -29,8 +33,6 @@ namespace FTMS
         public DbSet<Trainer> Trainers { get; set; }
 
         public DbSet<UserChats> UserChats { get; set; }
-
-        public DbSet<UserDiets> UserDiets { get; set; }
 
         public DbSet<UserGroup> UserGroups { get; set; }
 

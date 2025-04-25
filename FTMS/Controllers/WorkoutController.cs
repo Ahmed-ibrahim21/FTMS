@@ -1,9 +1,8 @@
 ﻿using FTMS.DTOs;
 using FTMS.ServiceContracts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
 
 namespace FTMS.Controllers
 {

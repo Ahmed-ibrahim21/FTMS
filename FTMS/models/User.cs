@@ -20,7 +20,7 @@ namespace FTMS.models
 
         public List<UserChats> UserChats { get; set; }
 
-        public List<UserDiets> UserDiets { get; set; }
+        public List<DietPlan> DietPlans { get; set; }
 
         public List<WorkoutPlan> WorkoutPlans { get; set; }
 

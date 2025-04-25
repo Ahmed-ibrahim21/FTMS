@@ -40,6 +40,7 @@ public class FriendRequestService: IFriendRequestService
             SenderId = createdRequest.SenderId,
             ReceiverId = createdRequest.ReceiverId,
             RequestStatus = createdRequest.RequestStatus,
+            SentDate = createdRequest.SentDate
 
         };
     }
@@ -84,7 +85,8 @@ public class FriendRequestService: IFriendRequestService
             Id = r.Id,
             SenderId = r.SenderId,
             ReceiverId = r.ReceiverId,
-            RequestStatus = r.RequestStatus
+            RequestStatus = r.RequestStatus,
+            SentDate = r.SentDate
         });
     }
 
@@ -96,8 +98,14 @@ public class FriendRequestService: IFriendRequestService
             Id = r.Id,
             SenderId = r.SenderId,
             ReceiverId = r.ReceiverId,
-            RequestStatus = r.RequestStatus
+            RequestStatus = r.RequestStatus,
+            SentDate = r.SentDate
         });
     }
-    
+    public async Task<IEnumerable<User>> GetAllFriendsAsync(string userId)
+    {
+        var friends = await _repository.GetAllFriendsAsync(userId);
+        return friends;
+    }
+
 }

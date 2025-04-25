@@ -74,7 +74,17 @@ public class FriendRequestController : ControllerBase
         var result = await _service.GetSentRequestsAsync(userId);
         return Ok(result);
     }
+    [HttpGet("GetAllFriends")]
+    public async Task<IActionResult> GetAllFriends()
+    {
+        var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+            return Unauthorized();
 
-   
+        var result = await _service.GetAllFriendsAsync(userId);
+        return Ok(result);
+    }
+
+
 
 }

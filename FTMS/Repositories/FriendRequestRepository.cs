@@ -50,7 +50,15 @@ public class FriendRequestRepository: IFriendRequestRepository
         _context.FriendRequests.Remove(request);
         await _context.SaveChangesAsync();
     }
+    public async Task<IEnumerable<User>> GetAllFriendsAsync(string userId)
+    {
+        return await _context.FriendRequests
+            .Where(fr => fr.RequestStatus == Status.Accepted &&
+                (fr.SenderId == userId || fr.ReceiverId == userId))
+            .Select(fr => fr.SenderId == userId ? fr.Receiver : fr.sender)
+            .Distinct()
+            .ToListAsync();
+    }
 
-   
 }
 

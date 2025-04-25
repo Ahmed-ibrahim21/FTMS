@@ -8,6 +8,7 @@ public class FriendRequestDto
     public string SenderId { get; set; }
     public string ReceiverId { get; set; }
     public Status RequestStatus { get; set; }
+    public DateTime SentDate { get; set; }
 }
 
 public class CreateFriendRequestDto

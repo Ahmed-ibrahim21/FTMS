@@ -16,6 +16,7 @@ namespace FTMS.models
         [ForeignKey("ReceiverId")]
         public User? Receiver { get; set; }
 
-        public Status RequestStatus { get; set; }
+        public Status RequestStatus { get; set; } = Status.Pending;
+        public DateTime SentDate { get; set; } = DateTime.UtcNow;
     }
 }

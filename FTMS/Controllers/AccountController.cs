@@ -91,6 +91,7 @@ public class AccountController : ControllerBase
 
         return Ok(new { Message = "Trainer approved successfully." });
     }
+
     [HttpPost("change-password")]
     [Authorize(Roles = "Admin,User,Trainer")]
     public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto model)

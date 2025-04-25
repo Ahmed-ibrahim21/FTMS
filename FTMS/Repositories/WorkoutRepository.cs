@@ -28,8 +28,15 @@ namespace FTMS.Repositories
         }
         public async Task<bool> DeleteWorkoutPlanAsync(int workoutPlanId)
         {
-            var workoutPlan = await _context.WorkoutPlans.FindAsync(workoutPlanId);
+            var workoutPlan = await _context.WorkoutPlans.Include(w => w.Moves).FirstOrDefaultAsync(w => w.Id == workoutPlanId);
             if (workoutPlan == null) return false;
+            if(workoutPlan.Moves != null)
+            {
+                foreach (var move in workoutPlan.Moves)
+                {
+                    _context.workoutMoves.Remove(move);
+                }
+            }
             _context.WorkoutPlans.Remove(workoutPlan);
             return await _context.SaveChangesAsync() > 0;
         }
@@ -64,6 +71,14 @@ namespace FTMS.Repositories
         public async Task<bool> AddWorkoutMoveAsync(workoutMove workoutMove)
         {
             await _context.workoutMoves.AddAsync(workoutMove);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> DeleteWorkoutMoveAsync(int workoutId, int moveId)
+        {
+            var workoutMove = await _context.workoutMoves.FirstOrDefaultAsync(w => w.Id == moveId && w.WorkoutId == workoutId);
+            if (workoutMove == null) return false;
+            _context.workoutMoves.Remove(workoutMove);
             return await _context.SaveChangesAsync() > 0;
         }
     }

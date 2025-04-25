@@ -13,13 +13,22 @@ namespace FTMS.Services
         {
             _workoutRepository = workoutRepository;
         }
-        public async Task<bool> CreateWorkoutPlanAsync(CreateWorkoutDto workoutPlanDto,string trainerId)
+        public async Task<bool> CreateWorkoutPlanAsync(CreateWorkoutDto workoutPlanDto, string trainerId)
         {
             var workoutPlan = new WorkoutPlan
             {
                 Name = workoutPlanDto.Name,
                 UserId = workoutPlanDto.UserId,
                 TrainerId = trainerId,
+                Moves = workoutPlanDto.Moves.Select(move => new workoutMove
+                {
+                    Sets = move.Sets,
+                    Reps = move.Reps,
+                    Name = move.Name,
+                    Description = move.Description,
+                    Video = move.Video,
+                    Image = move.Image
+                }).ToList()
             };
             return await _workoutRepository.CreateWorkoutPlanAsync(workoutPlan);
         }
@@ -43,6 +52,46 @@ namespace FTMS.Services
         {
             var workoutPlans = await _workoutRepository.GetAllWorkoutPlansForUserAsync(userId);
             return workoutPlans;
+        }
+
+        public async Task<bool> UpdateWorkoutPlanAsync(int workoutId, UpdateWorkoutDto updateWorkoutDto, string trainerId)
+        {
+            var workoutPlan = await _workoutRepository.GetWorkoutPlanByIdAsync(workoutId);
+            if (workoutPlan == null || workoutPlan.TrainerId != trainerId)
+            {
+                return false;
+            }
+            workoutPlan.Name = updateWorkoutDto.Name;
+            workoutPlan.Moves = updateWorkoutDto.Moves.Select(move => new workoutMove
+            {
+                Sets = move.Sets,
+                Reps = move.Reps,
+                Name = move.Name,
+                Description = move.Description,
+                Video = move.Video,
+                Image = move.Image
+            }).ToList();
+            return await _workoutRepository.UpdateWorkoutPlanAsync(workoutPlan);
+        }
+
+        public async Task<bool> DeleteWorkoutPlanAsync(int workoutId, string trainerId)
+        {
+            var workoutPlan = await _workoutRepository.GetWorkoutPlanByIdAsync(workoutId);
+            if (workoutPlan == null || workoutPlan.TrainerId != trainerId)
+            {
+                return false;
+            }
+            return await _workoutRepository.DeleteWorkoutPlanAsync(workoutId);
+        }
+
+        public async Task<bool> DeleteWorkoutMoveAsync(int workoutId, int moveId, string trainerId)
+        {
+            var workoutPlan = await _workoutRepository.GetWorkoutPlanByIdAsync(workoutId);
+            if (workoutPlan == null || workoutPlan.TrainerId != trainerId)
+            {
+                return false;
+            }
+            return await _workoutRepository.DeleteWorkoutMoveAsync(workoutId, moveId);
         }
     }
 }

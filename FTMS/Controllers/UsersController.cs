@@ -1,5 +1,6 @@
 ﻿using FTMS.DTOs;
 using FTMS.ServiceContracts;
+using FTMS.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -74,6 +75,21 @@ public class UsersController : ControllerBase
         var user = await _service.GetByEmailAsync(email);
         if (user == null) return NotFound();
         return Ok(user);
+    }
+
+    [HttpGet("search-by-name")]
+    [Authorize]
+    public async Task<IActionResult> SearchByName([FromQuery] string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return BadRequest("Search term is required.");
+
+        var users = await _service.SearchByNameAsync(name);
+
+        if (users == null || !users.Any())
+            return NotFound("No users found with that name.");
+
+        return Ok(users);
     }
 
 }

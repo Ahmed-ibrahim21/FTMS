@@ -110,6 +110,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IWorkoutRepository, WorkoutRepository>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+builder.Services.AddScoped<IDietPlanRepository, DietplanRepository>();
+builder.Services.AddScoped<IDietplanService, DietPlanService>();
 
 
 builder.Services.AddAuthentication(options =>

@@ -1,6 +1,8 @@
 ﻿using AspNetCoreRateLimit;
+using CaloriePredictionAPI.Services;
 using FTMS;
 using FTMS.Configuration;
+using FTMS.DTOs;
 using FTMS.Extensions;
 using FTMS.Helper;
 using FTMS.Hubs;
@@ -16,6 +18,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Net.Http.Headers;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,7 +38,7 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddDbContext<FTMSContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Ahmed")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GP")));
 
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<FTMSContext>()
@@ -45,7 +48,20 @@ builder.Services.AddScoped<IUserContextService, UserContextService>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddMemoryCache();
+builder.Services.Configure<FlaskApiSettings>(builder.Configuration.GetSection("FlaskApi"));
+builder.Services.AddHttpClient<FlaskCalorieService>((serviceProvider, client) =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    client.BaseAddress = new Uri(configuration["FlaskApi:BaseUrl"]);
 
+    // You can configure additional HttpClient settings here if needed
+    client.Timeout = TimeSpan.FromSeconds(30);
+    client.DefaultRequestHeaders.Accept.Add(
+        new MediaTypeWithQualityHeaderValue("application/json"));
+});
+
+// Register the FlaskCalorieService
+builder.Services.AddScoped<FlaskCalorieService>();
 builder.Services.AddScoped<IGroupRepository, GroupRepository>();
 builder.Services.AddScoped<IGroupService, GroupService>();
 builder.Services.AddScoped<IUserGroupRepository, UserGroupRepository>();

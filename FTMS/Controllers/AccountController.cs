@@ -1,5 +1,6 @@
 ﻿using FTMS.DTOs;
 using FTMS.models;
+using FTMS.ServiceContracts;
 using FTMS.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,11 +18,13 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager<User> _userManager;
     private readonly JwtService _jwtService;
+    private readonly IUserService _userService;
 
-    public AccountController(UserManager<User> userManager, JwtService jwtService)
+    public AccountController(UserManager<User> userManager, JwtService jwtService, IUserService userService)
     {
         _userManager = userManager;
         _jwtService = jwtService;
+        _userService = userService;
     }
 
     [HttpPost("login")]
@@ -105,6 +108,26 @@ public class AccountController : ControllerBase
             return BadRequest(result.Errors);
 
         return Ok(new { Message = "Password changed successfully." });
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost("reject-trainer/{userId}")]
+    public async Task<IActionResult> RejectTrainer(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            return NotFound("User not found.");
+
+        var roles = await _userManager.GetRolesAsync(user);
+        if (!roles.Contains("Trainer"))
+            return BadRequest("User is not a trainer.");
+
+        if (user.IsApproved)
+            return BadRequest("User Is Already Accepted");
+
+        await _userService.DeleteAsync(userId);
+
+        return Ok(new { Message = "Trainer Rejected successfully." });
     }
 }
 

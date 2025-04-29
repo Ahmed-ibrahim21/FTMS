@@ -137,4 +137,33 @@ public class UserService:IUserService
         return result;
     }
 
+    public List<UserDto> MapUserToDto(IList<User> users, List<User> users1)
+    {
+        if (users != null)
+        {
+
+        var result = users.Select(user => new UserDto
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            ProfilePicBase64 = user.ProfilePic != null ? Convert.ToBase64String(user.ProfilePic) : null
+        }).ToList();
+            return result;
+
+        }
+        else
+        {
+            var result = users1.Select(user => new UserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                ProfilePicBase64 = user.ProfilePic != null ? Convert.ToBase64String(user.ProfilePic) : null
+            }).ToList();
+            return result;
+        }
+    }
 }

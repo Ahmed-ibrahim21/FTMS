@@ -1,8 +1,10 @@
 ﻿using FTMS.DTOs;
+using FTMS.models;
 using FTMS.ServiceContracts;
 using FTMS.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FTMS.Controllers;
@@ -11,10 +13,13 @@ namespace FTMS.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserService _service;
+    private readonly UserManager<User> _userManager;
 
-    public UsersController(IUserService service)
+
+    public UsersController(IUserService service,UserManager<User> userManager)
     {
         _service = service;
+        _userManager = userManager;
     }
 
     [HttpGet]
@@ -90,6 +95,44 @@ public class UsersController : ControllerBase
             return NotFound("No users found with that name.");
 
         return Ok(users);
+    }
+
+
+    [HttpGet("users")]
+    public async Task<IActionResult> GetRegularUsers()
+    {
+        var usersInRole = await _userManager.GetUsersInRoleAsync("User");
+        var users = _service.MapUserToDto(usersInRole);
+        return Ok(users);
+    }
+
+
+    [HttpGet("trainers")]
+    public async Task<IActionResult> GetTrainers()
+    {
+        var usersInRole = await _userManager.GetUsersInRoleAsync("Trainer");
+        var trainers = _service.MapUserToDto(usersInRole);
+        return Ok(trainers);
+    }
+
+    
+    [HttpGet("admin")]
+    public async Task<IActionResult> GetAdmins()
+    {
+        var usersInRole = await _userManager.GetUsersInRoleAsync("Admin");
+        var admins = _service.MapUserToDto(usersInRole);
+        return Ok(admins);
+    }
+
+    [HttpGet("pending-trainers")]
+    [Authorize(Roles = "Admin")]
+
+    public async Task<IActionResult> GetPendingTrainers()
+    {
+        var usersInRole = await _userManager.GetUsersInRoleAsync("Trainer");
+        var pendingTrainers = usersInRole.Where(u => u.IsApproved == false).ToList();
+        var trainers = _service.MapUserToDto(null,pendingTrainers);
+        return Ok(trainers);
     }
 
 }

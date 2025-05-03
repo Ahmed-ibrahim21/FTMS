@@ -17,5 +17,7 @@ namespace FTMS.ServiceContracts
 
         Task<bool> DeleteWorkoutMoveAsync(int workoutId, int moveId,string trainerId);
 
+        Task<WorkoutResponse> GetWorkoutPlanForUserAsync(int workoutId, string userId);
+
     }
 }

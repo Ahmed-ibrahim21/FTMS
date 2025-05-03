@@ -91,5 +91,20 @@ namespace FTMS.Controllers
                 return BadRequest("Failed to delete workout move.");
         }
 
+        [HttpGet("{workoutId}")]
+        public async Task<IActionResult> GetWorkout(int workoutId)
+        {
+            var userId = _userContextService.GetUserId();
+            try
+            {
+                var workoutPlans = await _workoutService.GetWorkoutPlanForUserAsync(workoutId, userId);
+                return Ok(workoutPlans);
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
     }
 }

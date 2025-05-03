@@ -42,7 +42,7 @@ namespace FTMS.Repositories
         }
         public async Task<WorkoutPlan> GetWorkoutPlanByIdAsync(int workoutPlanId)
         {
-            return await _context.WorkoutPlans.FindAsync(workoutPlanId);
+            return await _context.WorkoutPlans.Include(w => w.Moves).FirstOrDefaultAsync(w => w.Id == workoutPlanId);
         }
         public async Task<List<WorkoutsResponse>> GetAllWorkoutPlansForUserAsync(string UserId)
         {            

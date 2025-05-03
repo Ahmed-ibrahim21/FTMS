@@ -1,4 +1,6 @@
-﻿namespace FTMS.DTOs
+﻿using FTMS.models;
+
+namespace FTMS.DTOs
 {
     public class CreateWorkoutDto
     {
@@ -33,6 +35,19 @@
         public string UserName { get; set; } = string.Empty;
 
         public string TrainerName { get; set; } = string.Empty;
+    }
+
+    public class WorkoutResponse
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public string UserId { get; set; }
+
+        public string TrainerId { get;set; } = string.Empty;
+
+        public IEnumerable<workoutMove> moves { get; set; }
     }
 
     public class UpdateWorkoutDto

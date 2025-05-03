@@ -93,5 +93,37 @@ namespace FTMS.Services
             }
             return await _workoutRepository.DeleteWorkoutMoveAsync(workoutId, moveId);
         }
+
+       public async Task<WorkoutResponse> GetWorkoutPlanForUserAsync(int workoutId, string userId)
+        {
+            var workoutPlan = await _workoutRepository.GetWorkoutPlanByIdAsync(workoutId);
+            if(workoutPlan.UserId != userId && workoutPlan.TrainerId != userId)
+            {
+                throw new Exception("user doesn't have access to this workout");
+            }
+            else
+            {
+                WorkoutResponse response = new WorkoutResponse
+                {
+                    CreatedAt = workoutPlan.CreatedAt,
+                    Id = workoutPlan.Id,
+                    Name = workoutPlan.Name,
+                    TrainerId = workoutPlan.TrainerId,
+                    UserId = userId,
+                    moves = workoutPlan.Moves.Select(move => new workoutMove
+                    {
+                        Id = move.Id,
+                        Description = move.Description,
+                        Image = move.Image,
+                         Name = move.Name,
+                         Reps = move.Reps,
+                         Sets = move.Sets,
+                         Video = move.Video,
+                    }).ToList(),
+                };
+                return response;
+            }
+        }
+
     }
 }

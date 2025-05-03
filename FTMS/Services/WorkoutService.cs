@@ -97,6 +97,8 @@ namespace FTMS.Services
        public async Task<WorkoutResponse> GetWorkoutPlanForUserAsync(int workoutId, string userId)
         {
             var workoutPlan = await _workoutRepository.GetWorkoutPlanByIdAsync(workoutId);
+            if (workoutPlan == null)
+                throw new Exception("no workout Exists with this Id");
             if(workoutPlan.UserId != userId && workoutPlan.TrainerId != userId)
             {
                 throw new Exception("user doesn't have access to this workout");

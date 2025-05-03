@@ -12,7 +12,7 @@ namespace FTMS.ServiceContracts
 
         Task<bool> UpdateDietPlanAsync(int dietPlanId, UpdateDietPlanDto updateDietPlanDto, string trainerId);
 
-        Task<DietPlanResponse> GetDietPlanByIdAsync(int dietPlanId);
+        Task<DietPlanResponse> GetDietPlanByIdAsync(int dietPlanId,string userId);
 
         Task<bool> DeleteDietPlanAsync(int dietPlanId, string trainerId);
 

@@ -79,6 +79,21 @@ namespace FTMS.Controllers
                 return BadRequest("Failed to delete diet plan.");
         }
 
+        [HttpGet("{dietPlanId}")]
+        public async Task<IActionResult> GetDietPlan(int dietPlanId)
+        {
+            var userId = _userContextService.GetUserId();
+            try
+            {
+                var dietPlans = await _dietService.GetDietPlanByIdAsync(dietPlanId, userId);
+                return Ok(dietPlans);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 
 }

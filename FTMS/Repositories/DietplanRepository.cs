@@ -26,9 +26,7 @@ namespace FTMS.Repositories
         public async Task<IEnumerable<DietPlan>> GetAllDietPlansForUserAsync(string userId)
         {
             return await _context.DietPlans
-                .Include(dp => dp.meals)
-                .ThenInclude(dm => dm.ingredients)
-                .Where(dp => dp.UserId == userId)
+                .Where(dp => dp.UserId == userId || dp.TrainerId == userId)
                 .ToListAsync();
         }
 

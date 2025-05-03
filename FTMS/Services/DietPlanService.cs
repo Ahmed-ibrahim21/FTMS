@@ -62,20 +62,7 @@ namespace FTMS.Services
                 Id = dietPlan.Id,
                 Name = dietPlan.Name,
                 UserId = dietPlan.UserId,
-                TrainerId = dietPlan.TrainerId,
-                Meals = dietPlan.meals.Select(meal => new DietMealResponse
-                {
-                    Id = meal.id,
-                    Name = meal.Name,
-                    Description = meal.Description,
-                    Video = meal.Video,
-                    Image = meal.Image,
-                    Ingredients = meal.ingredients.Select(ingredient => new IngredientResponse
-                    {
-                        Name = ingredient.Name,
-                        Weight = ingredient.weight
-                    }).ToList()
-                }).ToList()
+                TrainerId = dietPlan.TrainerId
             });
         }
 
@@ -102,13 +89,13 @@ namespace FTMS.Services
             return await _dietPlanRepository.UpdateDietPlanAsync(dietPlanId, dietPlan);
         }
 
-        public async Task<DietPlanResponse> GetDietPlanByIdAsync(int dietPlanId)
+        public async Task<DietPlanResponse> GetDietPlanByIdAsync(int dietPlanId,string userId)
         {
             var dietPlan = await _dietPlanRepository.GetDietPlanByIdAsync(dietPlanId);
             if (dietPlan == null)
-            {
-                return null;
-            }
+                throw new Exception("there is no dietPlan with this Id");
+            if (dietPlan.TrainerId != userId && dietPlan.UserId != userId)
+                throw new Exception("this user has no access to this dietPlan");
             return new DietPlanResponse
             {
                 Id = dietPlan.Id,
